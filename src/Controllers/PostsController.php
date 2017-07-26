@@ -420,13 +420,13 @@ class PostsController extends Controller
         return response()->download(public_path($fname));
     }
 
-    public function getGallery(Request $request)
+    public function getGallery(Request $request, $social = '')
     {
-        $items = \Cache::remember('gallery'.md5($request->get('tag_id').$request->get('tag_name')), 60, function() use ($request) {
+        $items = \Cache::remember('gallery'.md5($request->get('tag_id').$request->get('tag_name').$social), 60, function() use ($request, $social) {
             $mainStatuses = StatusModel::select('id')->where('main', true)->pluck('id')->toArray();
             $visiblePoints = PointModel::select('id')->where('show', true)->pluck('id')->toArray();
 
-            $items = PostModel::whereIn('status_id', $mainStatuses)->orderBy('position', 'desc')->orderBy('id', 'desc');
+            $items = PostModel::with('social')->whereIn('status_id', $mainStatuses)->orderBy('position', 'desc')->orderBy('id', 'desc');
 
             if ($request->has('tag_id') or $request->has('tag_name')) {
                 $tagId = trim($request->get('tag_id'));
@@ -465,18 +465,20 @@ class PostsController extends Controller
                 }
             }
 
-            $items = $items->map(function ($item) {
+            $items = $items->map(function ($item) use ($social) {
                 $points = (int) $item->points()->sum('numeric');
 
-                return [
-                    'id' => $item->id,
-                    'thumb' => url($item->social->getFirstMedia('images')->getUrl(config('hashtags.gallery_preview_images').'_thumb')),
-                    'src' => ($item->social->hasMedia('videos')) ? url($item->social->getFirstMediaUrl('videos')) : url($item->social->getFirstMediaUrl('images')),
-                    'authorName' => $item->social->user->user_nickname,
-                    'points' => $points,
-                    'pointsWord' => $this->getPointsWord($points),
-                    'tags' => $item->tags()->select(['hashtags_tags.id as id', 'hashtags_tags.name as name'])->pluck('name', 'id')->toArray(),
-                ];
+                if ($social == '' or ($item->social->social_name == $social)) {
+                    return [
+                        'id' => $item->id,
+                        'thumb' => url($item->social->getFirstMedia('images')->getUrl(config('hashtags.gallery_preview_images').'_thumb')),
+                        'src' => ($item->social->hasMedia('videos')) ? url($item->social->getFirstMediaUrl('videos')) : url($item->social->getFirstMediaUrl('images')),
+                        'authorName' => $item->social->user->user_nickname,
+                        'points' => $points,
+                        'pointsWord' => $this->getPointsWord($points),
+                        'tags' => $item->tags()->select(['hashtags_tags.id as id', 'hashtags_tags.name as name'])->pluck('name', 'id')->toArray(),
+                    ];
+                }
             });
 
             return array_values(array_filter($items->toArray()));

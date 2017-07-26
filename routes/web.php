@@ -3,7 +3,7 @@
 Route::group(['namespace' => 'InetStudio\Hashtags\Controllers'], function () {
     //Route::get('modules/hashtags/searchTag', 'TagsController@searchCity')->name('front.hashtags.tags.search');
     //Route::post('modules/hashtags/info', 'TagsController@info')->name('front.hashtags.tags.info');
-    Route::any('modules/hashtags/gallery', 'PostsController@getGallery')->name('front.hashtags.posts.gallery');
+    Route::any('modules/hashtags/gallery/{social?}', 'PostsController@getGallery')->name('front.hashtags.posts.gallery');
     //Route::any('modules/hashtags/getDayWinners', 'PostsController@getDayWinners')->name('front.contest.city.tag.posts.getDayWinners');
     //Route::any('modules/hashtags/getStagesWinners', 'PostsController@getStagesWinners')->name('front.contest.city.tag.posts.getStagesWinners');
 
