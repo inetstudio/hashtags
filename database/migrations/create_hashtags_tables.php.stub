@@ -1,0 +1,119 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateHashtagsTables extends Migration
+{
+    public function up()
+    {
+        Schema::create('hashtags_posts', function (Blueprint $table) {
+            $table->increments('id');
+            $table->uuid('hash');
+            $table->morphs('social');
+            $table->bigInteger('status_id')->unsigned()->index()->default(0);
+            $table->bigInteger('stage_id')->unsigned()->index()->default(0);
+            $table->bigInteger('prize_id')->unsigned()->index()->default(0);
+            $table->bigInteger('author_id')->unsigned()->index()->default(0);
+            $table->bigInteger('last_editor_id')->unsigned()->index()->default(0);
+            $table->integer('position');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('hashtags_tags', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->bigInteger('author_id')->unsigned()->index()->default(0);
+            $table->bigInteger('last_editor_id')->unsigned()->index()->default(0);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('hashtags_prizes', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('alias');
+            $table->text('description')->nullable();
+            $table->bigInteger('author_id')->unsigned()->index()->default(0);
+            $table->bigInteger('last_editor_id')->unsigned()->index()->default(0);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('hashtags_statuses', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('alias');
+            $table->text('description')->nullable();
+            $table->boolean('default')->default(false);
+            $table->boolean('main')->default(false);
+            $table->boolean('check')->default(false);
+            $table->boolean('delete')->default(false);
+            $table->bigInteger('author_id')->unsigned()->index()->default(0);
+            $table->bigInteger('last_editor_id')->unsigned()->index()->default(0);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('hashtags_stages', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('alias');
+            $table->text('description')->nullable();
+            $table->bigInteger('author_id')->unsigned()->index()->default(0);
+            $table->bigInteger('last_editor_id')->unsigned()->index()->default(0);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('hashtags_points', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('alias');
+            $table->integer('numeric')->default(0);
+            $table->boolean('show')->default(true);
+            $table->bigInteger('author_id')->unsigned()->index()->default(0);
+            $table->bigInteger('last_editor_id')->unsigned()->index()->default(0);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+
+        Schema::create('hashtags_posts_tags', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('post_id')->unsigned()->index();
+            $table->integer('tag_id')->unsigned()->index();
+            $table->integer('point_id')->unsigned()->index()->default(0);
+            $table->timestamps();
+        });
+
+        Schema::create('hashtags_tags_points', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('tag_id')->unsigned()->index();
+            $table->integer('point_id')->unsigned()->index();
+            $table->integer('post_id')->unsigned()->index();
+            $table->timestamps();
+        });
+
+        Schema::create('hashtags_posts_points', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('post_id')->unsigned()->index();
+            $table->integer('point_id')->unsigned()->index();
+            $table->integer('tag_id')->unsigned()->index()->default(0);
+            $table->timestamps();
+        });
+    }
+
+    public function down()
+    {
+        Schema::drop('hashtags_posts');
+        Schema::drop('hashtags_tags');
+        Schema::drop('hashtags_posts_tags');
+        Schema::drop('hashtags_prizes');
+        Schema::drop('hashtags_statuses');
+        Schema::drop('hashtags_stages');
+        Schema::drop('hashtags_points');
+        Schema::drop('hashtags_tags_points');
+        Schema::drop('hashtags_posts_points');
+    }
+}

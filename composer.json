@@ -1,0 +1,28 @@
+{
+    "name": "inetstudio/contest-by-city-tag",
+    "description": "Package for social contest by city tag",
+    "homepage": "https://github.com/inetstudio/contest-by-city-tag",
+    "license": "MIT",
+    "require": {
+        "inetstudio/admin-panel": "^1.0",
+        "inetstudio/instagram": "^1.0",
+        "inetstudio/vkontakte": "^1.0",
+        "ramsey/uuid": "~3.0",
+        "chumper/zipper": "1.0.x",
+        "maatwebsite/excel": "~2.1.0",
+        "rutorika/sortable": "^3.4",
+        "yajra/laravel-datatables-oracle": "^7.9",
+        "yajra/laravel-datatables-html": "^2.0"
+    },
+    "authors": [
+        {
+            "name": "Konstantin Bukin",
+            "email": "bukin@inetstudio.ru"
+        }
+    ],
+    "autoload": {
+      "psr-4": {
+        "InetStudio\\ContestByCityTag\\": "src/"
+      }
+    }
+}
