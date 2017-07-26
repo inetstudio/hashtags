@@ -1,7 +1,7 @@
 {
-    "name": "inetstudio/contest-by-city-tag",
-    "description": "Package for social contest by city tag",
-    "homepage": "https://github.com/inetstudio/contest-by-city-tag",
+    "name": "inetstudio/hashtags",
+    "description": "Package for social contests by tag",
+    "homepage": "https://github.com/inetstudio/hashtags",
     "license": "MIT",
     "require": {
         "inetstudio/admin-panel": "^1.0",
@@ -22,7 +22,7 @@
     ],
     "autoload": {
       "psr-4": {
-        "InetStudio\\ContestByCityTag\\": "src/"
+        "InetStudio\\Hashtags\\": "src/"
       }
     }
 }
