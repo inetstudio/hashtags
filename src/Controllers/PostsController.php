@@ -473,7 +473,7 @@ class PostsController extends Controller
                         'id' => $item->id,
                         'thumb' => url($item->social->getFirstMedia('images')->getUrl(config('hashtags.gallery_preview_images').'_thumb')),
                         'src' => ($item->social->hasMedia('videos')) ? url($item->social->getFirstMediaUrl('videos')) : url($item->social->getFirstMediaUrl('images')),
-                        'authorName' => $item->social->user->user_nickname,
+                        'username' => $item->social->user->user_nickname,
                         'points' => $points,
                         'pointsWord' => $this->getPointsWord($points),
                         'tags' => $item->tags()->select(['hashtags_tags.id as id', 'hashtags_tags.name as name'])->pluck('name', 'id')->toArray(),
@@ -483,6 +483,14 @@ class PostsController extends Controller
 
             return array_values(array_filter($items->toArray()));
         });
+
+        if ($request->has('page') and $request->has('limit')) {
+            $page = $request->get('page');
+            $limit = $request->get('limit');
+
+            $offset = ($page - 1) * $limit;
+            $items = array_slice($items, $offset, $limit);
+        }
 
         return response()->json($items, 200);
     }
