@@ -38,14 +38,16 @@ class SearchVkontaktePostsByTagCommand extends Command
 
         $configTypes = config('hashtags.types');
 
-        foreach ($configTypes as $configType) {
-            switch ($configType) {
-                case 'all':
-                    $this->postTypes = ['video', 'photo', 'link'];
-                    break;
-                default:
-                    $this->postTypes[] = $configType;
-                    break;
+        if ($configTypes) {
+            foreach ($configTypes as $configType) {
+                switch ($configType) {
+                    case 'all':
+                        $this->postTypes = ['video', 'photo', 'link'];
+                        break;
+                    default:
+                        $this->postTypes[] = $configType;
+                        break;
+                }
             }
         }
     }

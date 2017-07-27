@@ -38,17 +38,19 @@ class SearchInstagramPostsByTagCommand extends Command
 
         $configTypes = config('hashtags.types');
 
-        foreach ($configTypes as $configType) {
-            switch ($configType) {
-                case 'all':
-                    $this->postTypes = [1, 2];
-                    break;
-                case 'photo':
-                    $this->postTypes[] = 1;
-                    break;
-                case 'video':
-                    $this->postTypes[] = 2;
-                    break;
+        if ($configTypes) {
+            foreach ($configTypes as $configType) {
+                switch ($configType) {
+                    case 'all':
+                        $this->postTypes = [1, 2];
+                        break;
+                    case 'photo':
+                        $this->postTypes[] = 1;
+                        break;
+                    case 'video':
+                        $this->postTypes[] = 2;
+                        break;
+                }
             }
         }
     }
