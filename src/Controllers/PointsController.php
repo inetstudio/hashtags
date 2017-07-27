@@ -33,7 +33,7 @@ class PointsController extends Controller
             ['data' => 'numeric', 'name' => 'numeric', 'title' => 'Количество баллов'],
             ['data' => 'created_at', 'name' => 'created_at', 'title' => 'Дата создания'],
             ['data' => 'updated_at', 'name' => 'updated_at', 'title' => 'Дата обновления'],
-            ['data' => 'actions', 'name' => 'actions', 'title' => 'Действия'],
+            ['data' => 'actions', 'name' => 'actions', 'title' => 'Действия', 'orderable' => false, 'searchable' => false],
         ]);
 
         $table->ajax([
