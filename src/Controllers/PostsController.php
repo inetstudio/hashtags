@@ -129,11 +129,10 @@ class PostsController extends Controller
             abort(404);
         }
 
-        $items = PostModel::with('social')->where('status_id', $statusId)->withTrashed();
+        $items = PostModel::with(['social', 'social.user'])->where('status_id', $statusId)->withTrashed();
 
         return Datatables::of($items)
             ->setTransformer(new PostTransformer($status))
-            ->withTrashed()
             ->escapeColumns(['media', 'info', 'statuses', 'actions'])
             ->orderColumn('id', '-id $1')
             ->make();

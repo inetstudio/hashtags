@@ -9,7 +9,6 @@ use InetStudio\Hashtags\Models\PostModel;
 
 class PostTransformer extends TransformerAbstract
 {
-
     private $status;
 
     public function __construct($status)
