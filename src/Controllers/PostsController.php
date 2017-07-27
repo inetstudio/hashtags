@@ -483,12 +483,17 @@ class PostsController extends Controller
             return array_values(array_filter($items->toArray()));
         });
 
+        $data['stop'] = false;
+
         if ($request->has('page') and $request->has('limit')) {
+            $total = count($items);
             $page = $request->get('page');
             $limit = $request->get('limit');
 
             $offset = ($page - 1) * $limit;
             $items = array_slice($items, $offset, $limit);
+
+            $data['stop'] = (($page+1)*$limit >= $total) ? true : false;
         }
 
         $data['items'] = $items;
