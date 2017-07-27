@@ -491,7 +491,9 @@ class PostsController extends Controller
             $items = array_slice($items, $offset, $limit);
         }
 
-        return response()->json($items, 200);
+        $data['items'] = $items;
+
+        return response()->json($data, 200);
     }
 
     /*
