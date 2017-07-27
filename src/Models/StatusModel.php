@@ -7,8 +7,46 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Модель статуса.
+ * 
+ * Class StatusModel
  *
- * Class ContestStatus
+ * @property int $id
+ * @property string $name
+ * @property string $alias
+ * @property string|null $description
+ * @property int $default
+ * @property int $main
+ * @property int $check
+ * @property int $delete
+ * @property int $block
+ * @property int $author_id
+ * @property int $last_editor_id
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property-read \App\User $author
+ * @property-read \App\User $editor
+ * @property-read \Illuminate\Database\Eloquent\Collection|\InetStudio\Hashtags\Models\PostModel[] $posts
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\InetStudio\Hashtags\Models\StatusModel onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereAlias($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereAuthorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereBlock($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereCheck($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereDefault($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereDelete($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereLastEditorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereMain($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\InetStudio\Hashtags\Models\StatusModel withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\InetStudio\Hashtags\Models\StatusModel withoutTrashed()
+ * @mixin \Eloquent
  */
 class StatusModel extends Model
 {

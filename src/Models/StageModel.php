@@ -7,8 +7,36 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Модель этапа.
+ * 
+ * Class StageModel
  *
- * Class ContestStage
+ * @property int $id
+ * @property string $name
+ * @property string $alias
+ * @property string|null $description
+ * @property int $author_id
+ * @property int $last_editor_id
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property-read \App\User $author
+ * @property-read \App\User $editor
+ * @property-read \Illuminate\Database\Eloquent\Collection|\InetStudio\Hashtags\Models\PostModel[] $posts
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\InetStudio\Hashtags\Models\StageModel onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StageModel whereAlias($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StageModel whereAuthorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StageModel whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StageModel whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StageModel whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StageModel whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StageModel whereLastEditorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StageModel whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StageModel whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\InetStudio\Hashtags\Models\StageModel withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\InetStudio\Hashtags\Models\StageModel withoutTrashed()
+ * @mixin \Eloquent
  */
 class StageModel extends Model
 {

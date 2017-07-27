@@ -5,18 +5,60 @@ namespace InetStudio\Hashtags\Models;
 use Rutorika\Sortable\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Nicolaslopezj\Searchable\SearchableTrait;
 
 /**
  * Модель поста.
+ * 
+ * Class PostModel
  *
- * Class ContestPost
+ * @property int $id
+ * @property string $hash
+ * @property int $social_id
+ * @property string $social_type
+ * @property int $status_id
+ * @property int $stage_id
+ * @property int $prize_id
+ * @property int $author_id
+ * @property int $last_editor_id
+ * @property int $position
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property-read \App\User $author
+ * @property-read \App\User $editor
+ * @property-read \Illuminate\Database\Eloquent\Collection|\InetStudio\Hashtags\Models\PointModel[] $points
+ * @property-read \InetStudio\Hashtags\Models\PrizeModel $prize
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $social
+ * @property-read \InetStudio\Hashtags\Models\StageModel $stage
+ * @property-read \InetStudio\Hashtags\Models\StatusModel $status
+ * @property-read \Illuminate\Database\Eloquent\Collection|\InetStudio\Hashtags\Models\TagModel[] $tags
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\InetStudio\Hashtags\Models\PostModel onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\PostModel search($search, $threshold = null, $entireText = false, $entireTextOnly = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\PostModel searchRestricted($search, $restriction, $threshold = null, $entireText = false, $entireTextOnly = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\PostModel sorted()
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\PostModel whereAuthorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\PostModel whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\PostModel whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\PostModel whereHash($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\PostModel whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\PostModel whereLastEditorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\PostModel wherePosition($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\PostModel wherePrizeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\PostModel whereSocialId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\PostModel whereSocialType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\PostModel whereStageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\PostModel whereStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\PostModel whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\InetStudio\Hashtags\Models\PostModel withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\InetStudio\Hashtags\Models\PostModel withoutTrashed()
+ * @mixin \Eloquent
  */
 class PostModel extends Model
 {
     use SoftDeletes;
     use SortableTrait;
-    use SearchableTrait;
 
     /**
      * Связанная с моделью таблица.
@@ -51,24 +93,6 @@ class PostModel extends Model
      * @var string
      */
     protected static $sortableGroupField = 'status_id';
-
-    /**
-     * Searchable rules.
-     *
-     * @var array
-     */
-    protected $searchable = [
-        /**
-         * Columns and their priority in search results.
-         * Columns with higher values are more important.
-         * Columns with equal values have equal importance.
-         *
-         * @var array
-         */
-        'columns' => [
-            'hashtags_posts.hash' => 10,
-        ],
-    ];
 
     /**
      * Полиморфное отношение с моделями социальных постов.

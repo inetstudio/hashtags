@@ -7,8 +7,29 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Модель тега.
+ * 
+ * Class TagModel
  *
- * Class ContestStatus
+ * @property int $id
+ * @property string $name
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property \Carbon\Carbon|null $deleted_at
+ * @property-read \App\User $author
+ * @property-read \App\User $editor
+ * @property-read \Illuminate\Database\Eloquent\Collection|\InetStudio\Hashtags\Models\PointModel[] $points
+ * @property-read \Illuminate\Database\Eloquent\Collection|\InetStudio\Hashtags\Models\PostModel[] $posts
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|\InetStudio\Hashtags\Models\TagModel onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\TagModel whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\TagModel whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\TagModel whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\TagModel whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\TagModel whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\InetStudio\Hashtags\Models\TagModel withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\InetStudio\Hashtags\Models\TagModel withoutTrashed()
+ * @mixin \Eloquent
  */
 class TagModel extends Model
 {
