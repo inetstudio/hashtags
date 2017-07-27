@@ -50,6 +50,7 @@ class CreateHashtagsTables extends Migration
             $table->boolean('main')->default(false);
             $table->boolean('check')->default(false);
             $table->boolean('delete')->default(false);
+            $table->boolean('block')->default(false);
             $table->bigInteger('author_id')->unsigned()->index()->default(0);
             $table->bigInteger('last_editor_id')->unsigned()->index()->default(0);
             $table->timestamps();

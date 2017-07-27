@@ -78,8 +78,6 @@ class SearchVkontaktePostsByTagCommand extends Command
             $userIds = [];
         }
 
-        dd($userIds);
-
         $contestVKPostIds = VkontaktePostModel::select('post_id')->pluck('post_id')->toArray();
 
         foreach ($tags as $tagArr) {
