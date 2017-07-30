@@ -48,7 +48,7 @@ class StagesController extends Controller
             'info' => false,
             'searchDelay' => 350,
             'language' => [
-                'url' => asset('admin/js/plugins/datatables/locales/russian.lang'),
+                'url' => asset('admin/js/plugins/datatables/locales/russian.json'),
             ],
         ]);
 

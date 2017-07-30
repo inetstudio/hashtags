@@ -44,7 +44,7 @@ class SavePostRequest extends FormRequest
     public function rules(Request $request)
     {
         return [
-            'status_id' => 'required|integer|exists:contest_by_city_tag_statuses,id',
+            'status_id' => 'required|integer|exists:hashtags_statuses,id',
             'stage_id' => 'nullable|integer|exists:hashtags_stages,id',
             'prize_id' => 'nullable|integer|exists:hashtags_prizes,id',
         ];
