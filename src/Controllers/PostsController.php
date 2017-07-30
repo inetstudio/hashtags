@@ -131,11 +131,27 @@ class PostsController extends Controller
 
         $items = PostModel::with(['social', 'social.user'])->where('status_id', $statusId)->withTrashed();
 
-        return Datatables::of($items)
+        if ($request->has('search.value')) {
+            $items = $items->get();
+        }
+
+        $datatables = Datatables::of($items)
             ->setTransformer(new PostTransformer($status))
             ->escapeColumns(['media', 'info', 'statuses', 'actions'])
-            ->orderColumn('id', '-id $1')
-            ->make();
+            ->orderColumn('id', '-id $1');
+
+        if ($request->has('search.value')) {
+            $datatables->filter(function($engine) use ($request) {
+                    $search = $request->input('search.value');
+                    $collection = $engine->collection;
+
+                    $engine->collection = $collection->filter(function ($item) use ($search) {
+                        return (strpos($item['info'], $search) !== false);
+                    });
+            });
+        }
+
+        return $datatables->make();
     }
 
     /**
