@@ -568,7 +568,7 @@ class PostsController extends Controller
 
             $items = PostModel::with('social')
                 ->whereIn('status_id', $mainStatuses)
-                ->where('prize_id', '<>', 0)
+                ->where('stage_id', '<>', 0)
                 ->orderBy('stage_id', 'asc')
                 ->orderBy('prize_id', 'asc')
                 ->orderBy('position', 'desc')
@@ -579,7 +579,7 @@ class PostsController extends Controller
 
                 return [
                     'stage_id' => $item->stage->id,
-                    'prize' => $item->prize->name,
+                    'prize' => (isset($item->prize)) ? $item->prize->name : '',
                     'id' => $item->id,
                     'thumb' => url($item->social->getFirstMedia('images')->getUrl(config('hashtags.gallery_preview_images').'_thumb')),
                     'src' => ($item->social->hasMedia('videos')) ? url($item->social->getFirstMediaUrl('videos')) : url($item->social->getFirstMediaUrl('images')),
@@ -594,12 +594,13 @@ class PostsController extends Controller
 
             $data = [];
 
+            $data['count'] = count($items);
             foreach ($stages as $stage) {
-                $data[$stage->alias]['name'] = $stage->name;
+                $data['stages'][$stage->alias]['name'] = $stage->name;
 
                 foreach ($items as $item) {
                     if ($item['stage_id'] == $stage->id) {
-                        $data[$stage->alias]['items'][$item['prize']][] = $item;
+                        $data['stages'][$stage->alias]['items'][$item['prize']][] = $item;
                     }
                 }
             }
