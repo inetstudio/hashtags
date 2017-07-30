@@ -550,40 +550,57 @@ class PostsController extends Controller
 
         return response()->json($items, 200);
     }
+    */
 
-    public function getStagesWinners(Request $request)
+    public function getStagesWinners(Request $request, $stageAlias = '')
     {
-        $items = \Cache::remember('stagesWinners', 60, function() use ($request) {
-            $items = PostModel::whereHas('status', function ($query) {
-                $query->where('alias', 'approved');
-            })->whereNull('prize_date')->where('prize_id', '<>', 0)->get();
+        $items = \Cache::remember('stagesWinners_'.$stageAlias, 60, function() use ($request, $stageAlias) {
+            $mainStatuses = StatusModel::select('id')->where('main', true)->pluck('id')->toArray();
+
+            $stages = StageModel::select(['id', 'name', 'alias']);
+
+            if ($stageAlias) {
+                $stages = $stages->where('alias', $stageAlias)->get();
+            } else {
+                $stages = $stages->get();
+            }
+
+            $items = PostModel::with('social')
+                ->whereIn('status_id', $mainStatuses)
+                ->where('prize_id', '<>', 0)
+                ->orderBy('stage_id', 'asc')
+                ->orderBy('prize_id', 'asc')
+                ->orderBy('position', 'desc')
+                ->orderBy('id', 'desc')->get();
 
             $items = $items->map(function ($item) {
-                $currentPoints = ContestByCityTagPointModel::where('post_id', '=', $item->id)->get();
+                $points = (int) $item->points()->sum('numeric');
 
-                $points = ($currentPoints->count() > 0) ? $currentPoints->last()->points : 0;
-
-                if ($points != 3) {
-                    return [
-                        'id' => $item->id,
-                        'photo' => url($item->social->getFirstMedia('images')->getUrl(config('contestByCityTag.winners_preview_images').'_thumb')),
-                        'photoBig' => url($item->social->getFirstMediaUrl('images')),
-                        'src' => ($item->social->hasMedia('videos')) ? url($item->social->getFirstMediaUrl('videos')) : url($item->social->getFirstMediaUrl('images')),
-                        'authorName' => $item->social->user->userNickname,
-                        'ball' => $points.' '.$this->getPointsWord($points),
-                        'city' => $item->city->name,
-                        'cityId' => $item->city->id,
-                        'prize' => $item->prize->name,
-                    ];
-                }
+                return [
+                    'stage_id' => $item->stage->id,
+                    'prize' => $item->prize->name,
+                    'id' => $item->id,
+                    'thumb' => url($item->social->getFirstMedia('images')->getUrl(config('hashtags.gallery_preview_images').'_thumb')),
+                    'src' => ($item->social->hasMedia('videos')) ? url($item->social->getFirstMediaUrl('videos')) : url($item->social->getFirstMediaUrl('images')),
+                    'username' => $item->social->user->user_nickname,
+                    'points' => $points,
+                    'pointsWord' => $this->getPointsWord($points),
+                    'tags' => $item->tags()->select(['hashtags_tags.id as id', 'hashtags_tags.name as name'])->pluck('name', 'id')->toArray(),
+                ];
             });
 
             $items = array_values(array_filter($items->toArray()));
 
             $data = [];
 
-            foreach ($items as $item) {
-                $data[$item['prize']][$item['city']][] = $item;
+            foreach ($stages as $stage) {
+                $data[$stage->alias]['name'] = $stage->name;
+
+                foreach ($items as $item) {
+                    if ($item['stage_id'] == $stage->id) {
+                        $data[$stage->alias]['items'][$item['prize']][] = $item;
+                    }
+                }
             }
 
             return $data;
@@ -591,7 +608,6 @@ class PostsController extends Controller
 
         return response()->json($items, 200);
     }
-    */
 
     public function sort(Request $request)
     {

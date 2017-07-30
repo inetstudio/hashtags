@@ -4,12 +4,12 @@ Route::group(['namespace' => 'InetStudio\Hashtags\Controllers'], function () {
     //Route::get('modules/hashtags/searchTag', 'TagsController@searchCity')->name('front.hashtags.tags.search');
     //Route::post('modules/hashtags/info', 'TagsController@info')->name('front.hashtags.tags.info');
     Route::any('modules/hashtags/gallery/{social?}', 'PostsController@getGallery')->name('front.hashtags.posts.gallery');
-    //Route::any('modules/hashtags/getDayWinners', 'PostsController@getDayWinners')->name('front.contest.city.tag.posts.getDayWinners');
-    //Route::any('modules/hashtags/getStagesWinners', 'PostsController@getStagesWinners')->name('front.contest.city.tag.posts.getStagesWinners');
+    //Route::any('modules/hashtags/getDayWinners', 'PostsController@getDayWinners')->name('front.hashtags.getDayWinners');
+    Route::any('modules/hashtags/getStagesWinners/{stage?}', 'PostsController@getStagesWinners')->name('front.hashtags.getStagesWinners');
 
     /*
     Route::group(['middleware' => ['web','auth']], function () {
-        Route::post('modules/hashtags/vote', 'ContestByCityTagAddressesController@vote')->name('front.contest.city.tag.addresses.vote');
+        Route::post('modules/hashtags/vote', 'TagsController@vote')->name('front.hashtags.tags.vote');
     });
     */
 });
