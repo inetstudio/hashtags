@@ -142,12 +142,12 @@ class PostsController extends Controller
 
         if ($request->has('search.value')) {
             $datatables->filter(function($engine) use ($request) {
-                    $search = $request->input('search.value');
-                    $collection = $engine->collection;
+                $search = $request->input('search.value');
+                $collection = $engine->collection;
 
-                    $engine->collection = $collection->filter(function ($item) use ($search) {
-                        return (strpos($item['info'], $search) !== false);
-                    });
+                $engine->collection = $collection->filter(function ($item) use ($search) {
+                    return (strpos($item['info'], $search) !== false);
+                });
             });
         }
 

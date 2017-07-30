@@ -1,5 +1,5 @@
 @php
-    $title = ($item->id) ? 'Редактирование конкурсного поста' : 'Добавление конкурсного поста';
+    $title = ($item->id) ? 'Редактирование поста' : 'Добавление поста';
 @endphp
 
 @extends('admin::layouts.app')
@@ -110,20 +110,6 @@
                                 'options' => [null => ''] + \InetStudio\Hashtags\Models\StatusModel::select('id', 'name')->pluck('name', 'id')->toArray(),
                             ]) !!}
 
-                            {!! Form::dropdown('prize_id', $item->prize_id, [
-                                'label' => [
-                                    'title' => 'Приз',
-                                    'class' => 'col-sm-2 control-label',
-                                ],
-                                'field' => [
-                                    'class' => 'select2 form-control',
-                                    'data-placeholder' => 'Выберите приз',
-                                    'data-allow-clear' => 'true',
-                                    'style' => 'width: 100%',
-                                ],
-                                'options' => [null => ''] + \InetStudio\Hashtags\Models\PrizeModel::select('id', 'name')->pluck('name', 'id')->toArray(),
-                            ]) !!}
-
                             {!! Form::dropdown('stage_id', $item->stage_id, [
                                 'label' => [
                                     'title' => 'Этап',
@@ -138,14 +124,18 @@
                                 'options' => [null => ''] + \InetStudio\Hashtags\Models\StageModel::select('id', 'name')->pluck('name', 'id')->toArray(),
                             ]) !!}
 
-                            {!! Form::datepicker('prize_date', ($item->prize_date) ? date('Y-m-d', strtotime(trim(strip_tags($item->prize_date)))) : '', [
+                            {!! Form::dropdown('prize_id', $item->prize_id, [
                                 'label' => [
-                                    'title' => 'Дата',
+                                    'title' => 'Приз',
                                     'class' => 'col-sm-2 control-label',
                                 ],
                                 'field' => [
-                                    'class' => 'datepicker form-control',
+                                    'class' => 'select2 form-control',
+                                    'data-placeholder' => 'Выберите приз',
+                                    'data-allow-clear' => 'true',
+                                    'style' => 'width: 100%',
                                 ],
+                                'options' => [null => ''] + \InetStudio\Hashtags\Models\PrizeModel::select('id', 'name')->pluck('name', 'id')->toArray(),
                             ]) !!}
 
                             {!! Form::buttons('', '', ['back' => 'back.hashtags.posts.index']) !!}
