@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use InetStudio\Hashtags\Models\PointModel;
 use InetStudio\Hashtags\Models\TagModel;
 use InetStudio\Hashtags\Models\PostModel;
+use InetStudio\Hashtags\Models\StageModel;
 use InetStudio\Hashtags\Models\StatusModel;
 use InetStudio\Hashtags\Requests\SavePostRequest;
 use InetStudio\Hashtags\Transformers\PostTransformer;
