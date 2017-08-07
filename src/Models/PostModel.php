@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Модель поста.
- * 
+ *
  * Class PostModel
  *
  * @property int $id

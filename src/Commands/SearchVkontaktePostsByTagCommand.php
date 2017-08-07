@@ -4,9 +4,9 @@ namespace InetStudio\Hashtags\Commands;
 
 use Ramsey\Uuid\Uuid;
 use Illuminate\Console\Command;
-use InetStudio\Vkontakte\Models\VkontaktePostModel;
 use InetStudio\Hashtags\Models\PostModel;
 use InetStudio\Hashtags\Models\StatusModel;
+use InetStudio\Vkontakte\Models\VkontaktePostModel;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 
 class SearchVkontaktePostsByTagCommand extends Command

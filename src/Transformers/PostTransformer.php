@@ -20,17 +20,17 @@ class PostTransformer extends TransformerAbstract
     {
         $status = $this->status;
 
-        $postData = \Cache::remember('posts_'.$post->id.'_'.$post->status_id, 1440, function() use ($post, $status) {
+        $postData = \Cache::remember('posts_'.$post->id.'_'.$post->status_id, 1440, function () use ($post, $status) {
             $caption = $post->social->caption;
 
             if ($status->check) {
-                preg_match_all("/(#[а-яА-Яa-zA-Z0-9]+)/u", $caption, $matches);
+                preg_match_all('/(#[а-яА-Яa-zA-Z0-9]+)/u', $caption, $matches);
                 foreach ($matches[0] as $hashtag) {
                     $query = substr($hashtag, 1);
                     $tag = TagModel::select(['id', 'name'])->where('name', $query)->first();
 
-                    if (!empty($tag)) {
-                        $caption = str_replace($hashtag, '<a class="submit-post" href="#" data-id="' . $post->id . '" data-tag-id="' . $tag->id . '" data-tag-name="' . $tag->name . '" data-toggle="modal" data-target="#submit">' . $hashtag . '</a>', $caption);
+                    if (! empty($tag)) {
+                        $caption = str_replace($hashtag, '<a class="submit-post" href="#" data-id="'.$post->id.'" data-tag-id="'.$tag->id.'" data-tag-name="'.$tag->name.'" data-toggle="modal" data-target="#submit">'.$hashtag.'</a>', $caption);
                     }
                 }
             }
