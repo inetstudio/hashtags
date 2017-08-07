@@ -4,9 +4,9 @@ namespace InetStudio\Hashtags\Commands;
 
 use Ramsey\Uuid\Uuid;
 use Illuminate\Console\Command;
-use InetStudio\Instagram\Models\InstagramPostModel;
 use InetStudio\Hashtags\Models\PostModel;
 use InetStudio\Hashtags\Models\StatusModel;
+use InetStudio\Instagram\Models\InstagramPostModel;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 
 class SearchInstagramPostsByTagCommand extends Command

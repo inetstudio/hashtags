@@ -13,7 +13,7 @@ class SavePointRequest extends FormRequest
      * @return bool
      */
     public function authorize()
-{
+    {
         return true;
     }
 

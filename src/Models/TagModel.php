@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Модель тега.
- * 
+ *
  * Class TagModel
  *
  * @property int $id
