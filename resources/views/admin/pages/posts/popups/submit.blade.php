@@ -16,10 +16,9 @@
                 @endif
             </div>
             <form method="post" data-action="{{ route('back.hashtags.posts.moderate', ['_id_', $mainStatus->alias]) }}" class="form-horizontal">
+                {{ csrf_field() }}
                 @if ($tagsCount > 0 || $pointsCount > 0)
                     <div class="modal-body">
-                        {{ csrf_field() }}
-
                         @if ($tagsCount > 0)
                             <input type="hidden" name="tag_id" />
 
