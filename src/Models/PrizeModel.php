@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Модель приза.
- * 
+ *
  * Class PrizeModel
  *
  * @property int $id

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Модель этапа.
- * 
+ *
  * Class StageModel
  *
  * @property int $id

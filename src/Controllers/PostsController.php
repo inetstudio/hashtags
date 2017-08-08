@@ -8,9 +8,9 @@ use Yajra\Datatables\Datatables;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use InetStudio\Hashtags\Models\PointModel;
 use InetStudio\Hashtags\Models\TagModel;
 use InetStudio\Hashtags\Models\PostModel;
+use InetStudio\Hashtags\Models\PointModel;
 use InetStudio\Hashtags\Models\StageModel;
 use InetStudio\Hashtags\Models\StatusModel;
 use InetStudio\Hashtags\Requests\SavePostRequest;
@@ -49,7 +49,7 @@ class PostsController extends Controller
         $sortItems = [];
 
         foreach ($postsSort as $post) {
-            $postData = \Cache::remember('postsSort'.$post->id, 1440, function() use ($post, $status) {
+            $postData = \Cache::remember('postsSort'.$post->id, 1440, function () use ($post, $status) {
                 return [
                     'id' => $post->id,
                     'media' => [
@@ -143,12 +143,12 @@ class PostsController extends Controller
             ->orderColumn('id', '-id $1');
 
         if ($request->has('search.value')) {
-            $datatables->filter(function($engine) use ($request) {
+            $datatables->filter(function ($engine) use ($request) {
                 $search = $request->input('search.value');
                 $collection = $engine->collection;
 
                 $engine->collection = $collection->filter(function ($item) use ($search) {
-                    return (mb_strpos($item['info'], $search) !== false);
+                    return strpos($item['info'], $search) !== false;
                 });
             });
         }
@@ -308,7 +308,7 @@ class PostsController extends Controller
      * @param $status
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function moderate(Request $request, $id = '', $status)
+    public function moderate(Request $request, $id, $status)
     {
         if (is_null($id) || $id < 1 || is_null($status)) {
             abort(404);
@@ -323,11 +323,11 @@ class PostsController extends Controller
 
         if ($status->main) {
             if ($request->has('tag_id')) {
-                $tag = TagModel::where('id', '=', (int)trim($request->get('tag_id')))->first();
+                $tag = TagModel::where('id', '=', (int) trim($request->get('tag_id')))->first();
             }
 
             if ($request->has('points_id')) {
-                $points = PointModel::where('id', '=', (int)trim($request->get('points_id')))->first();
+                $points = PointModel::where('id', '=', (int) trim($request->get('points_id')))->first();
 
                 if ($points) {
                     if (isset($tag)) {
@@ -439,7 +439,7 @@ class PostsController extends Controller
 
     public function getGallery(Request $request, $social = '')
     {
-        $items = \Cache::remember('gallery'.md5($request->get('tag_id').$request->get('tag_name').$social), 60, function() use ($request, $social) {
+        $items = \Cache::remember('gallery'.md5($request->get('tag_id').$request->get('tag_name').$social), 60, function () use ($request, $social) {
             $mainStatuses = StatusModel::select('id')->where('main', true)->pluck('id')->toArray();
             $visiblePoints = PointModel::select('id')->where('show', true)->pluck('id')->toArray();
 
@@ -513,7 +513,7 @@ class PostsController extends Controller
             $offset = ($page - 1) * $limit;
             $items = array_slice($items, $offset, $limit);
 
-            $data['stop'] = (($page+1)*$limit >= $total) ? true : false;
+            $data['stop'] = (($page + 1) * $limit >= $total) ? true : false;
         }
 
         $data['items'] = $items;
@@ -558,7 +558,7 @@ class PostsController extends Controller
 
     public function getStagesWinners(Request $request, $stageAlias = '')
     {
-        $items = \Cache::remember('stagesWinners_'.$stageAlias, 60, function() use ($request, $stageAlias) {
+        $items = \Cache::remember('stagesWinners_'.$stageAlias, 60, function () use ($request, $stageAlias) {
             $mainStatuses = StatusModel::select('id')->where('main', true)->pluck('id')->toArray();
 
             $stages = StageModel::select(['id', 'name', 'alias']);
@@ -630,7 +630,7 @@ class PostsController extends Controller
             abort(404);
         }
 
-        if ($request->get('prev') != 0 ) {
+        if ($request->get('prev') != 0) {
             $itemPrev = PostModel::where('id', '=', $request->get('prev'))->withTrashed()->first();
 
             if (empty($itemPrev)) {
@@ -638,7 +638,7 @@ class PostsController extends Controller
             }
 
             $item->moveAfter($itemPrev);
-        } elseif ($request->get('next') != 0 ) {
+        } elseif ($request->get('next') != 0) {
             $itemNext = PostModel::where('id', '=', $request->get('next'))->withTrashed()->first();
 
             if (empty($itemNext)) {
@@ -653,15 +653,21 @@ class PostsController extends Controller
         ]);
     }
 
-    private function get_correct_str($num, $str1, $str2, $str3) {
+    private function get_correct_str($num, $str1, $str2, $str3)
+    {
         $val = $num % 100;
 
-        if ($val > 10 && $val < 20) return $str3;
-        else {
+        if ($val > 10 && $val < 20) {
+            return $str3;
+        } else {
             $val = $num % 10;
-            if ($val == 1) return $str1;
-            elseif ($val > 1 && $val < 5) return $str2;
-            else return $str3;
+            if ($val == 1) {
+                return $str1;
+            } elseif ($val > 1 && $val < 5) {
+                return $str2;
+            } else {
+                return $str3;
+            }
         }
     }
 
@@ -674,7 +680,8 @@ class PostsController extends Controller
 
     private function getPointsWord($num)
     {
-        $num = (!$num) ? 0 : $num;
+        $num = (! $num) ? 0 : $num;
+
         return $this->get_correct_str($num, 'балл', 'балла', 'баллов');
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Модель статуса.
- * 
+ *
  * Class StatusModel
  *
  * @property int $id

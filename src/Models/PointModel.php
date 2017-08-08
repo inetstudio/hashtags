@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Модель баллов.
- * 
+ *
  * Class PointModel
  *
  * @property int $id
