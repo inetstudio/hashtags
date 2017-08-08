@@ -2,6 +2,7 @@
 
 namespace InetStudio\Hashtags\Controllers;
 
+use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -53,6 +54,21 @@ class StagesController extends Controller
         ]);
 
         return view('admin.module.hashtags::pages.stages.index', compact('table'));
+    }
+
+    /**
+     * Datatables serverside.
+     *
+     * @return mixed
+     */
+    public function data()
+    {
+        $items = StageModel::query();
+
+        return Datatables::of($items)
+            ->setTransformer(new StageTransformer)
+            ->escapeColumns(['actions'])
+            ->make();
     }
 
     /**
@@ -186,17 +202,18 @@ class StagesController extends Controller
     }
 
     /**
-     * Datatables serverside.
+     * Возвращаем этапы для поля.
      *
-     * @return mixed
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function data()
+    public function getSuggestions(Request $request)
     {
-        $items = StageModel::query();
+        $search = $request->get('q');
+        $data = [];
 
-        return Datatables::of($items)
-            ->setTransformer(new StageTransformer)
-            ->escapeColumns(['actions'])
-            ->make();
+        $data['items'] = StageModel::select(['id', 'name'])->where('name', 'LIKE', '%'.$search.'%')->get()->toArray();
+
+        return response()->json($data);
     }
 }

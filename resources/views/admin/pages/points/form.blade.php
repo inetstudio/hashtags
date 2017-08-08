@@ -51,51 +51,38 @@
                                 {{ method_field('PUT') }}
                             @endif
 
-                            {!! Form::hidden('points_id', (!$item->id) ? "" : $item->id) !!}
+                            {!! Form::hidden('points_id', (!$item->id) ? '' : $item->id) !!}
 
                             <p>Общая информация</p>
 
                             {!! Form::string('name', $item->name, [
                                 'label' => [
                                     'title' => 'Название',
-                                    'class' => 'col-sm-2 control-label',
-                                ],
-                                'field' => [
-                                    'class' => 'form-control',
                                 ],
                             ]) !!}
 
                             {!! Form::string('alias', $item->alias, [
                                 'label' => [
                                     'title' => 'Алиас',
-                                    'class' => 'col-sm-2 control-label',
-                                ],
-                                'field' => [
-                                    'class' => 'form-control',
                                 ],
                             ]) !!}
 
                             {!! Form::string('numeric', $item->numeric, [
                                 'label' => [
                                     'title' => 'Количество баллов',
-                                    'class' => 'col-sm-2 control-label',
-                                ],
-                                'field' => [
-                                    'class' => 'form-control',
                                 ],
                             ]) !!}
 
-                            <div class="form-group @if ($errors->has('show')){!! "has-error" !!}@endif">
-                                <label for="show" class="col-sm-2 control-label">Отображать в галереях</label>
-                                <div class="col-sm-10">
-                                    <div class="i-checks"><label> <input type="checkbox" value="1" name="show" @if (! $item->id || $item->show) checked="" @endif id="show"> <i></i> </label></div>
-                                    @foreach ($errors->get('show') as $message)
-                                        <span class="help-block m-b-none">{{ $message }}</span>
-                                    @endforeach
-                                </div>
-                            </div>
-
-                            <div class="hr-line-dashed"></div>
+                            {!! Form::checks('show', $item->show, [
+                                'label' => [
+                                    'title' => 'Отображать в галереях',
+                                ],
+                                'checks' => [
+                                    [
+                                        'value' => 1,
+                                    ],
+                                ],
+                            ]) !!}
 
                             {!! Form::buttons('', '', ['back' => 'back.hashtags.points.index']) !!}
 

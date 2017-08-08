@@ -25,16 +25,19 @@ Route::group(['middleware' => 'web', 'prefix' => 'back/hashtags'], function () {
             'show', 'index', 'create',
         ], 'as' => 'back.hashtags']);
 
+        Route::post('prizes/suggestions', 'PrizesController@getSuggestions')->name('back.hashtags.prizes.getSuggestions');
         Route::any('prizes/data', 'PrizesController@data')->name('back.hashtags.prizes.data');
         Route::resource('prizes', 'PrizesController', ['except' => [
             'show',
         ], 'as' => 'back.hashtags']);
 
+        Route::post('statuses/suggestions', 'StatusesController@getSuggestions')->name('back.hashtags.statuses.getSuggestions');
         Route::any('statuses/data', 'StatusesController@data')->name('back.hashtags.statuses.data');
         Route::resource('statuses', 'StatusesController', ['except' => [
             'show',
         ], 'as' => 'back.hashtags']);
 
+        Route::post('stages/suggestions', 'StagesController@getSuggestions')->name('back.hashtags.stages.getSuggestions');
         Route::any('stages/data', 'StagesController@data')->name('back.hashtags.stages.data');
         Route::resource('stages', 'StagesController', ['except' => [
             'show',

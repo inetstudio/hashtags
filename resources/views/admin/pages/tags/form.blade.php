@@ -46,17 +46,13 @@
                                 {{ method_field('PUT') }}
                             @endif
 
-                            {!! Form::hidden('tag_id', (!$item->id) ? "" : $item->id) !!}
+                            {!! Form::hidden('tag_id', (!$item->id) ? '' : $item->id) !!}
 
                             <p>Общая информация</p>
 
                             {!! Form::string('name', $item->name, [
                                 'label' => [
                                     'title' => 'Название',
-                                    'class' => 'col-sm-2 control-label',
-                                ],
-                                'field' => [
-                                    'class' => 'form-control',
                                 ],
                             ]) !!}
 

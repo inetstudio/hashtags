@@ -57,6 +57,21 @@ class PointsController extends Controller
     }
 
     /**
+     * Datatables serverside.
+     *
+     * @return mixed
+     */
+    public function data()
+    {
+        $items = PointModel::query();
+
+        return Datatables::of($items)
+            ->setTransformer(new PointTransformer)
+            ->escapeColumns(['name', 'actions'])
+            ->make();
+    }
+
+    /**
      * Добавление баллов.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -185,20 +200,5 @@ class PointsController extends Controller
         return response()->json([
             'success' => true,
         ]);
-    }
-
-    /**
-     * Datatables serverside.
-     *
-     * @return mixed
-     */
-    public function data()
-    {
-        $items = PointModel::query();
-
-        return Datatables::of($items)
-            ->setTransformer(new PointTransformer)
-            ->escapeColumns(['name', 'actions'])
-            ->make();
     }
 }

@@ -56,6 +56,21 @@ class TagsController extends Controller
     }
 
     /**
+     * Datatables serverside.
+     *
+     * @return mixed
+     */
+    public function data()
+    {
+        $items = TagModel::query();
+
+        return Datatables::of($items)
+            ->setTransformer(new TagTransformer)
+            ->escapeColumns(['actions'])
+            ->make();
+    }
+
+    /**
      * Добавление тега.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -326,19 +341,4 @@ class TagsController extends Controller
         return response()->json($data);
     }
     */
-
-    /**
-     * Datatables serverside.
-     *
-     * @return mixed
-     */
-    public function data()
-    {
-        $items = TagModel::query();
-
-        return Datatables::of($items)
-            ->setTransformer(new TagTransformer)
-            ->escapeColumns(['actions'])
-            ->make();
-    }
 }

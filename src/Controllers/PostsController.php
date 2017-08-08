@@ -3,6 +3,7 @@
 namespace InetStudio\Hashtags\Controllers;
 
 use Illuminate\Http\Request;
+use Emojione\Emojione as Emoji;
 use Yajra\Datatables\Datatables;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -147,7 +148,7 @@ class PostsController extends Controller
                 $collection = $engine->collection;
 
                 $engine->collection = $collection->filter(function ($item) use ($search) {
-                    return (strpos($item['info'], $search) !== false);
+                    return (mb_strpos($item['info'], $search) !== false);
                 });
             });
         }
@@ -487,9 +488,11 @@ class PostsController extends Controller
                 if ($social == '' or ($item->social->social_name == $social)) {
                     return [
                         'id' => $item->id,
+                        'type' => $item->social->type,
                         'thumb' => url($item->social->getFirstMedia('images')->getUrl(config('hashtags.gallery_preview_images').'_thumb')),
                         'src' => ($item->social->hasMedia('videos')) ? url($item->social->getFirstMediaUrl('videos')) : url($item->social->getFirstMediaUrl('images')),
                         'username' => $item->social->user->user_nickname,
+                        'caption' => Emoji::shortnameToUnicode($item->social->caption),
                         'points' => $points,
                         'pointsWord' => $this->getPointsWord($points),
                         'tags' => $item->tags()->select(['hashtags_tags.id as id', 'hashtags_tags.name as name'])->pluck('name', 'id')->toArray(),
@@ -581,9 +584,11 @@ class PostsController extends Controller
                     'stage_id' => $item->stage->id,
                     'prize' => (isset($item->prize)) ? $item->prize->name : '',
                     'id' => $item->id,
+                    'type' => $item->social->type,
                     'thumb' => url($item->social->getFirstMedia('images')->getUrl(config('hashtags.gallery_preview_images').'_thumb')),
                     'src' => ($item->social->hasMedia('videos')) ? url($item->social->getFirstMediaUrl('videos')) : url($item->social->getFirstMediaUrl('images')),
                     'username' => $item->social->user->user_nickname,
+                    'caption' => Emoji::shortnameToUnicode($item->social->caption),
                     'points' => $points,
                     'pointsWord' => $this->getPointsWord($points),
                     'tags' => $item->tags()->select(['hashtags_tags.id as id', 'hashtags_tags.name as name'])->pluck('name', 'id')->toArray(),

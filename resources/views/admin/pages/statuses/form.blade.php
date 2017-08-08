@@ -51,34 +51,25 @@
                                 {{ method_field('PUT') }}
                             @endif
 
-                            {!! Form::hidden('status_id', (!$item->id) ? "" : $item->id) !!}
+                            {!! Form::hidden('status_id', (!$item->id) ? '' : $item->id) !!}
 
                             <p>Общая информация</p>
 
                             {!! Form::string('name', $item->name, [
                                 'label' => [
                                     'title' => 'Название',
-                                    'class' => 'col-sm-2 control-label',
-                                ],
-                                'field' => [
-                                    'class' => 'form-control',
                                 ],
                             ]) !!}
 
                             {!! Form::string('alias', $item->alias, [
                                 'label' => [
                                     'title' => 'Алиас',
-                                    'class' => 'col-sm-2 control-label',
-                                ],
-                                'field' => [
-                                    'class' => 'form-control',
                                 ],
                             ]) !!}
 
                             {!! Form::wysiwyg('description', $item->description, [
                                 'label' => [
                                     'title' => 'Описание',
-                                    'class' => 'col-sm-2 control-label',
                                 ],
                                 'field' => [
                                     'class' => 'tinymce',
@@ -89,7 +80,6 @@
                             {!! Form::checks('default', $item->default, [
                                 'label' => [
                                     'title' => 'Статус по умолчанию',
-                                    'class' => 'col-sm-2 control-label',
                                 ],
                                 'checks' => [
                                     [
@@ -101,7 +91,6 @@
                             {!! Form::checks('main', $item->main, [
                                 'label' => [
                                     'title' => 'Основной статус',
-                                    'class' => 'col-sm-2 control-label',
                                 ],
                                 'checks' => [
                                     [
@@ -113,7 +102,6 @@
                             {!! Form::checks('check', $item->check, [
                                 'label' => [
                                     'title' => 'Проверка',
-                                    'class' => 'col-sm-2 control-label',
                                 ],
                                 'checks' => [
                                     [
@@ -125,7 +113,6 @@
                             {!! Form::checks('delete', $item->delete, [
                                 'label' => [
                                     'title' => 'Удалено',
-                                    'class' => 'col-sm-2 control-label',
                                 ],
                                 'checks' => [
                                     [
@@ -137,7 +124,6 @@
                             {!! Form::checks('block', $item->block, [
                                 'label' => [
                                     'title' => 'Блокировать',
-                                    'class' => 'col-sm-2 control-label',
                                 ],
                                 'checks' => [
                                     [

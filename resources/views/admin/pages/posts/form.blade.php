@@ -13,8 +13,8 @@
     <!-- FANCYBOX -->
     <link href="{!! asset('admin/css/plugins/fancybox/jquery.fancybox.min.css') !!}" rel="stylesheet">
 
-    <!-- DATEPICKER -->
-    <link href="{!! asset('admin/css/plugins/datepicker/bootstrap-datepicker3.min.css') !!}" rel="stylesheet">
+    <!-- DATETIMEPICKER -->
+    <link href="{!! asset('admin/css/plugins/datetimepicker/jquery.datetimepicker.css') !!}" rel="stylesheet">
 
     <!-- CUSTOM STYLE -->
     <link href="{!! asset('admin/css/modules/hashtags/custom.css') !!}" rel="stylesheet">
@@ -93,14 +93,13 @@
                                 {{ method_field('PUT') }}
                             @endif
 
-                            {!! Form::hidden('post_id', (!$item->id) ? "" : $item->id) !!}
+                            {!! Form::hidden('post_id', (!$item->id) ? '' : $item->id) !!}
 
                             <p>Общая информация</p>
 
                             {!! Form::dropdown('status_id', $item->status_id, [
                                 'label' => [
                                     'title' => 'Статус',
-                                    'class' => 'col-sm-2 control-label',
                                 ],
                                 'field' => [
                                     'class' => 'select2 form-control',
@@ -113,7 +112,6 @@
                             {!! Form::dropdown('stage_id', $item->stage_id, [
                                 'label' => [
                                     'title' => 'Этап',
-                                    'class' => 'col-sm-2 control-label',
                                 ],
                                 'field' => [
                                     'class' => 'select2 form-control',
@@ -127,7 +125,6 @@
                             {!! Form::dropdown('prize_id', $item->prize_id, [
                                 'label' => [
                                     'title' => 'Приз',
-                                    'class' => 'col-sm-2 control-label',
                                 ],
                                 'field' => [
                                     'class' => 'select2 form-control',
@@ -156,9 +153,8 @@
     <!-- FANCYBOX -->
     <script src="{!! asset('admin/js/plugins/fancybox/jquery.fancybox.min.js') !!}"></script>
 
-    <!-- DATEPICKER -->
-    <script src="{!! asset('admin/js/plugins/datepicker/bootstrap-datepicker.min.js') !!}"></script>
-    <script src="{!! asset('admin/js/plugins/datepicker/locales/bootstrap-datepicker.ru.js') !!}"></script>
+    <!-- DATETIMEPICKER -->
+    <script src="{!! asset('admin/js/plugins/datetimepicker/jquery.datetimepicker.full.min.js') !!}"></script>
 
     <!-- CUSTOM SCRIPTS -->
     <script src="{!! asset('admin/js/modules/hashtags/custom.js') !!}"></script>

@@ -46,34 +46,25 @@
                                 {{ method_field('PUT') }}
                             @endif
 
-                            {!! Form::hidden('prize_id', (!$item->id) ? "" : $item->id) !!}
+                            {!! Form::hidden('prize_id', (!$item->id) ? '' : $item->id) !!}
 
                             <p>Общая информация</p>
 
                             {!! Form::string('name', $item->name, [
                                 'label' => [
                                     'title' => 'Название',
-                                    'class' => 'col-sm-2 control-label',
-                                ],
-                                'field' => [
-                                    'class' => 'form-control',
                                 ],
                             ]) !!}
 
                             {!! Form::string('alias', $item->alias, [
                                 'label' => [
                                     'title' => 'Алиас',
-                                    'class' => 'col-sm-2 control-label',
-                                ],
-                                'field' => [
-                                    'class' => 'form-control',
                                 ],
                             ]) !!}
 
                             {!! Form::wysiwyg('description', $item->description, [
                                 'label' => [
                                     'title' => 'Описание',
-                                    'class' => 'col-sm-2 control-label',
                                 ],
                                 'field' => [
                                     'class' => 'tinymce',
