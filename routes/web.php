@@ -21,6 +21,7 @@ Route::group(['middleware' => 'web', 'prefix' => 'back/hashtags'], function () {
         Route::post('posts/sort', 'PostsController@sort')->name('back.hashtags.posts.sort');
         Route::any('posts/data', 'PostsController@data')->name('back.hashtags.posts.data');
         Route::get('posts/{status?}', 'PostsController@index')->name('back.hashtags.posts.index');
+        Route::post('posts/append', 'PostsController@add')->name('back.hashtags.posts.append');
         Route::resource('posts', 'PostsController', ['except' => [
             'show', 'index', 'create',
         ], 'as' => 'back.hashtags']);

@@ -2,6 +2,7 @@
 
 namespace InetStudio\Hashtags\Controllers;
 
+use Ramsey\Uuid\Uuid;
 use Illuminate\Http\Request;
 use Emojione\Emojione as Emoji;
 use Yajra\Datatables\Datatables;
@@ -259,6 +260,56 @@ class PostsController extends Controller
         } else {
             return redirect()->to(route('back.hashtags.posts.edit', $item->fresh()->id));
         }
+    }
+
+    public function add(Request $request)
+    {
+        $network = $request->get('social_network');
+        $link = $request->get('post_link');
+        
+        switch ($network) {
+            case 'Instagram':
+                $urlFragments = explode('/', trim($link, '/'));
+                $code = end($urlFragments);
+                $id = \InstagramID::fromCode($code);
+
+                $igPost = \InstagramPost::createPost($id);
+                if (! isset($igPost)) {
+                    return;
+                }
+
+                $igUser = \InstagramUser::createUser($igPost->user_pk);
+                if (! isset($igUser)) {
+                    return;
+                }
+
+                $igPost->addMediaFromUrl($igPost->image_versions)->toMediaCollection('images', 'instagram_posts');
+                $igUser->addMediaFromUrl($igUser->profile_pic_url)->toMediaCollection('images', 'instagram_users');
+
+                if ($igPost->media_type == 2) {
+                    $igPost->addMediaFromUrl($igPost->video_versions)->toMediaCollection('videos', 'instagram_posts');
+                }
+
+                $uuid = Uuid::uuid4();
+
+                $statuses = StatusModel::where('default', true)->get();
+                if ($statuses->count() != 1) {
+                    $statuses = StatusModel::orderBy('id', 'asc')->get();
+                }
+
+                $status = $statuses->first();
+
+                PostModel::create([
+                    'hash' => $uuid->toString(),
+                    'status_id' => isset($status->id) ? $status->id : 0,
+                    'social_id' => $igPost->id,
+                    'social_type' => get_class($igPost),
+                ]);
+
+                break;
+        }
+
+        return redirect()->to(route('back.hashtags.posts.index'));
     }
 
     /**

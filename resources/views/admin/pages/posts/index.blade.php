@@ -76,6 +76,7 @@
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
+                        <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#add" href="#"><i class="fa fa-plus"></i> Добавить</button>
                         <div class="tabs-container">
                             <ul class="nav nav-tabs">
                                 @foreach ($statuses as $alias => $status)
@@ -99,6 +100,7 @@
     </div>
 
     @include('admin.module.hashtags::pages.posts.popups.submit')
+    @include('admin.module.hashtags::pages.posts.popups.append')
 
 @endsection
 
