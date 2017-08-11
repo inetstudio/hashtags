@@ -266,7 +266,7 @@ class PostsController extends Controller
     {
         $network = $request->get('social_network');
         $link = $request->get('post_link');
-        
+
         switch ($network) {
             case 'Instagram':
                 $urlFragments = explode('/', trim($link, '/'));
@@ -564,7 +564,8 @@ class PostsController extends Controller
             $offset = ($page - 1) * $limit;
             $items = array_slice($items, $offset, $limit);
 
-            $data['stop'] = (($page + 1) * $limit >= $total) ? true : false;
+            $data['stop'] = (($page) * $limit >= $total) ? true : false;
+            $data['total'] = $total;
         }
 
         $data['items'] = $items;
