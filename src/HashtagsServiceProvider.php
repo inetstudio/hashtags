@@ -17,7 +17,7 @@ class HashtagsServiceProvider extends ServiceProvider
             __DIR__.'/../public' => public_path(),
         ], 'public');
 
-        $this->loadViewsFrom(__DIR__.'/../resources/views/admin', 'admin.module.hashtags');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'admin.module.hashtags');
 
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
@@ -27,6 +27,8 @@ class HashtagsServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
+                Commands\SetupCommand::class,
+                Commands\CreateFoldersCommand::class,
                 Commands\SearchInstagramPostsByTagCommand::class,
                 Commands\SearchVkontaktePostsByTagCommand::class,
             ]);

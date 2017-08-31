@@ -4,7 +4,7 @@
     "homepage": "https://github.com/inetstudio/hashtags",
     "license": "MIT",
     "require": {
-        "inetstudio/admin-panel": "^1.0",
+        "inetstudio/admin-panel": "1.4.*",
         "inetstudio/instagram": "^1.0",
         "inetstudio/vkontakte": "^1.0",
         "ramsey/uuid": "~3.0",

@@ -19,7 +19,7 @@ class StageTransformer extends TransformerAbstract
             'alias' => $stage->alias,
             'created_at' => (string) $stage->created_at,
             'updated_at' => (string) $stage->updated_at,
-            'actions' => view('admin.module.hashtags::pages.stages.datatables.actions', ['id' => $stage->id])->render(),
+            'actions' => view('admin.module.hashtags::partials.datatables.stages.actions', ['id' => $stage->id])->render(),
         ];
     }
 }

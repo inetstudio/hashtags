@@ -59,11 +59,11 @@ class PostTransformer extends TransformerAbstract
 
         return [
             'id' => $postData['id'],
-            'media' => view('admin.module.hashtags::pages.posts.datatables.media', ['item' => $postData])->render(),
-            'info' => view('admin.module.hashtags::pages.posts.datatables.info', ['item' => $postData])->render(),
-            'submit' => (! $status->main) ? view('admin.module.hashtags::pages.posts.datatables.submit', ['item' => $postData])->render() : '',
-            'statuses' => view('admin.module.hashtags::pages.posts.datatables.statuses', ['item' => $postData])->render(),
-            'actions' => view('admin.module.hashtags::pages.posts.datatables.actions', ['item' => $postData])->render(),
+            'media' => view('admin.module.hashtags::partials.datatables.posts.media', ['item' => $postData])->render(),
+            'info' => view('admin.module.hashtags::partials.datatables.posts.info', ['item' => $postData])->render(),
+            'submit' => (! $status->main) ? view('admin.module.hashtags::partials.datatables.posts.submit', ['item' => $postData])->render() : '',
+            'statuses' => view('admin.module.hashtags::partials.datatables.posts.statuses', ['item' => $postData])->render(),
+            'actions' => view('admin.module.hashtags::partials.datatables.posts.actions', ['item' => $postData])->render(),
         ];
     }
 }

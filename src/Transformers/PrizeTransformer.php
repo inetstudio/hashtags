@@ -19,7 +19,7 @@ class PrizeTransformer extends TransformerAbstract
             'alias' => $prize->alias,
             'created_at' => (string) $prize->created_at,
             'updated_at' => (string) $prize->updated_at,
-            'actions' => view('admin.module.hashtags::pages.prizes.datatables.actions', ['id' => $prize->id])->render(),
+            'actions' => view('admin.module.hashtags::partials.datatables.prizes.actions', ['id' => $prize->id])->render(),
         ];
     }
 }

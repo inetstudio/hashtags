@@ -213,6 +213,7 @@ class PostsController extends Controller
             'status_id' => trim(strip_tags($request->get('status_id'))),
             'stage_id' => ($request->has('stage_id')) ? trim(strip_tags($request->get('stage_id'))) : 0,
             'prize_id' => ($request->has('prize_id')) ? trim(strip_tags($request->get('prize_id'))) : 0,
+            'main_winner' => ($request->has('main_winner')) ? 1 : 0,
             'last_editor_id' => Auth::id(),
         ];
 

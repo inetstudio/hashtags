@@ -26,7 +26,7 @@ class StatusTransformer extends TransformerAbstract
             'alias' => $status->alias,
             'created_at' => (string) $status->created_at,
             'updated_at' => (string) $status->updated_at,
-            'actions' => view('admin.module.hashtags::pages.statuses.datatables.actions', ['id' => $status->id])->render(),
+            'actions' => view('admin.module.hashtags::partials.datatables.statuses.actions', ['id' => $status->id])->render(),
         ];
     }
 }

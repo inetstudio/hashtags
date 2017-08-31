@@ -20,7 +20,7 @@ class PointTransformer extends TransformerAbstract
             'numeric' => (int) $point->numeric,
             'created_at' => (string) $point->created_at,
             'updated_at' => (string) $point->updated_at,
-            'actions' => view('admin.module.hashtags::pages.points.datatables.actions', ['id' => $point->id])->render(),
+            'actions' => view('admin.module.hashtags::partials.datatables.points.actions', ['id' => $point->id])->render(),
         ];
     }
 }
