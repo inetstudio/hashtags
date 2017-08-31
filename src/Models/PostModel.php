@@ -73,7 +73,8 @@ class PostModel extends Model
      * @var array
      */
     protected $fillable = [
-        'hash', 'social_id', 'social_type', 'status_id', 'stage_id', 'prize_id', 'author_id', 'last_editor_id',
+        'hash', 'social_id', 'social_type', 'status_id', 'stage_id', 'prize_id', 'main_winner',
+        'author_id', 'last_editor_id',
     ];
 
     /**
