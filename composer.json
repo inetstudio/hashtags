@@ -4,13 +4,13 @@
     "homepage": "https://github.com/inetstudio/hashtags",
     "license": "MIT",
     "require": {
-        "inetstudio/admin-panel": "1.4.*",
-        "inetstudio/instagram": "^1.0",
-        "inetstudio/vkontakte": "^1.0",
-        "ramsey/uuid": "~3.0",
         "chumper/zipper": "1.0.x",
+        "inetstudio/admin-panel": "1.5.*",
+        "inetstudio/classifiers": "1.5.*",
+        "inetstudio/instagram": "1.5.*",
+        "inetstudio/vkontakte": "1.5.*",
         "maatwebsite/excel": "~2.1.0",
-        "rutorika/sortable": "^3.4"
+        "rutorika/sortable": "^4.0"
     },
     "authors": [
         {
@@ -22,5 +22,12 @@
       "psr-4": {
         "InetStudio\\Hashtags\\": "src/"
       }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "InetStudio\\Hashtags\\Providers\\HashtagsServiceProvider"
+            ]
+        }
     }
 }

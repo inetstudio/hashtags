@@ -4,53 +4,14 @@ namespace InetStudio\Hashtags\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Venturecraft\Revisionable\RevisionableTrait;
+use InetStudio\Classifiers\Models\Traits\HasClassifiers;
 
-/**
- * Модель статуса.
- *
- * Class StatusModel
- *
- * @property int $id
- * @property string $name
- * @property string $alias
- * @property string|null $description
- * @property int $default
- * @property int $main
- * @property int $check
- * @property int $delete
- * @property int $block
- * @property int $author_id
- * @property int $last_editor_id
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
- * @property \Carbon\Carbon|null $deleted_at
- * @property-read \App\User $author
- * @property-read \App\User $editor
- * @property-read \Illuminate\Database\Eloquent\Collection|\InetStudio\Hashtags\Models\PostModel[] $posts
- * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Query\Builder|\InetStudio\Hashtags\Models\StatusModel onlyTrashed()
- * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereAlias($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereAuthorId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereBlock($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereCheck($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereDefault($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereDelete($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereLastEditorId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereMain($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\InetStudio\Hashtags\Models\StatusModel whereUpdatedAt($value)
- * @method static \Illuminate\Database\Query\Builder|\InetStudio\Hashtags\Models\StatusModel withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\InetStudio\Hashtags\Models\StatusModel withoutTrashed()
- * @mixin \Eloquent
- */
 class StatusModel extends Model
 {
     use SoftDeletes;
+    use HasClassifiers;
+    use RevisionableTrait;
 
     /**
      * Связанная с моделью таблица.
@@ -65,7 +26,7 @@ class StatusModel extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'alias', 'description', 'default', 'main', 'check', 'delete', 'block', 'author_id', 'last_editor_id',
+        'name', 'alias', 'description', 'default', 'main', 'check', 'delete', 'block',
     ];
 
     /**
@@ -79,6 +40,8 @@ class StatusModel extends Model
         'deleted_at',
     ];
 
+    protected $revisionCreationsEnabled = true;
+
     /**
      * Отношение "один ко многим" с моделью поста.
      *
@@ -87,25 +50,5 @@ class StatusModel extends Model
     public function posts()
     {
         return $this->hasMany(PostModel::class, 'status_id', 'id');
-    }
-
-    /**
-     * Обратное отношение "один ко многим" с моделью пользователя.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function author()
-    {
-        return $this->belongsTo(\App\User::class, 'author_id');
-    }
-
-    /**
-     * Обратное отношение "один ко многим" с моделью пользователя.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function editor()
-    {
-        return $this->belongsTo(\App\User::class, 'last_editor_id');
     }
 }
