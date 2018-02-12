@@ -72,6 +72,21 @@ class SetupCommand extends Command
         $this->calls = [
             [
                 'type' => 'artisan',
+                'description' => 'Setup Classifiers package',
+                'command' => 'inetstudio:classifiers:setup',
+            ],
+            [
+                'type' => 'artisan',
+                'description' => 'Setup Instagram package',
+                'command' => 'inetstudio:instagram:setup',
+            ],
+            [
+                'type' => 'artisan',
+                'description' => 'Setup Vkontakte package',
+                'command' => 'inetstudio:vkontakte:setup',
+            ],
+            [
+                'type' => 'artisan',
                 'description' => 'Publish migrations',
                 'command' => 'vendor:publish',
                 'params' => [
@@ -112,16 +127,6 @@ class SetupCommand extends Command
                     '--provider' => 'InetStudio\Hashtags\Providers\HashtagsServiceProvider',
                     '--tag' => 'config',
                 ],
-            ],
-            [
-                'type' => 'artisan',
-                'description' => 'Setup Instagram package',
-                'command' => 'inetstudio:instagram:setup',
-            ],
-            [
-                'type' => 'artisan',
-                'description' => 'Setup Vkontakte package',
-                'command' => 'inetstudio:vkontakte:setup',
             ],
             [
                 'type' => 'cli',
