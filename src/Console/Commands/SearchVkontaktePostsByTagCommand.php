@@ -62,7 +62,7 @@ class SearchVkontaktePostsByTagCommand extends Command
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $startTime = config('hashtags.start');
         $endTime = config('hashtags.end');
