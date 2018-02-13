@@ -174,10 +174,17 @@ class ContestPostsService implements ContestPostsServiceContract
     {
         $fields = [
             'photo' => [
+                'src_xxxbig',
+                'src_xxbig',
                 'src_xbig',
                 'src_big',
                 'src_small',
                 'src',
+            ],
+            'video' => [
+                'image_big',
+                'image',
+                'image_small',
             ],
             'link' => [
                 'image_big',
