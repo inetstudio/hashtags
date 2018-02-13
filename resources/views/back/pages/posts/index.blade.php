@@ -75,7 +75,7 @@
             </div>
         </div>
 
-        <div class="row view active" data-mode="moderate">
+        <div class="row view active" data-mode="moderate" id="moderation">
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
