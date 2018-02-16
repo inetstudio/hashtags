@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Session;
 use InetStudio\Hashtags\Models\PostModel;
 use InetStudio\Hashtags\Models\PrizeModel;
 use InetStudio\Hashtags\Models\StatusModel;
+use InetStudio\Hashtags\Events\ModifyPostEvent;
 use InetStudio\Hashtags\Http\Requests\Back\SavePostRequest;
 use InetStudio\AdminPanel\Http\Controllers\Back\Traits\DatatablesTrait;
 use InetStudio\Hashtags\Contracts\Services\Back\ContestPostsServiceContract;
@@ -181,6 +182,8 @@ class PostsController extends Controller
                         break;
                 }
             }
+
+            event(new ModifyPostEvent($item));
         }
 
         $item = $this->services['ContestPosts']->moveToStatus($request, $item, $status);

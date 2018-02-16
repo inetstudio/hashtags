@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Cache;
 use League\Fractal\TransformerAbstract;
 use InetStudio\Hashtags\Models\TagModel;
 use InetStudio\Hashtags\Models\PostModel;
+use League\Fractal\Resource\Collection as FractalCollection;
 
 /**
  * Class PostTransformer
@@ -71,7 +72,9 @@ class PostTransformer extends TransformerAbstract
                 ],
                 'post' => [
                     'link' => $post->social->post_url,
+                    'created_at' => $post->social->post_time,
                 ],
+                'prizes' => $post->prizes,
             ];
         });
 
@@ -81,6 +84,11 @@ class PostTransformer extends TransformerAbstract
                 'item' => $postData
             ])->render(),
             'info' => view('admin.module.hashtags::back.partials.datatables.posts.info', [
+                'item' => $postData
+            ])->render(),
+            'date' => $postData['post']['created_at']->format('d.m.Y H:i'),
+            'orderDate' => (string) $postData['post']['created_at'],
+            'prizes' => view('admin.module.hashtags::back.partials.datatables.posts.prizes', [
                 'item' => $postData
             ])->render(),
             'submit' => (! $post->status->classifiers->contains('alias', 'main')) ? view('admin.module.hashtags::back.partials.datatables.posts.submit', [
@@ -93,5 +101,17 @@ class PostTransformer extends TransformerAbstract
                 'item' => $postData
             ])->render(),
         ];
+    }
+
+    /**
+     * Обработка коллекции статей.
+     *
+     * @param $items
+     *
+     * @return FractalCollection
+     */
+    public function transformCollection($items): FractalCollection
+    {
+        return new FractalCollection($items, $this);
     }
 }

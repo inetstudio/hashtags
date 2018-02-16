@@ -7,6 +7,7 @@ use InetStudio\Hashtags\Models\TagModel;
 use InetStudio\Hashtags\Models\PostModel;
 use InetStudio\Hashtags\Models\PointModel;
 use InetStudio\Hashtags\Models\StatusModel;
+use InetStudio\Hashtags\Events\ModifyPostEvent;
 use Spatie\MediaLibrary\Exceptions\FileCannotBeAdded\UnreachableUrl;
 use InetStudio\Hashtags\Contracts\Services\Back\ContestPostsServiceContract;
 use InetStudio\Instagram\Contracts\Services\Back\InstagramPostsServiceContract;
@@ -247,6 +248,8 @@ class ContestPostsService implements ContestPostsServiceContract
             return $item;
         }
 
+        event(new ModifyPostEvent($item));
+
         if ($status->classifiers->contains('alias', 'main')) {
             if ($request->filled('tag_data')) {
                 $tagData = json_decode($request->get('tag_data'), true);
@@ -300,6 +303,8 @@ class ContestPostsService implements ContestPostsServiceContract
         } elseif ($status->classifiers->contains('alias', 'delete')) {
             $item->delete();
         }
+
+        event(new ModifyPostEvent($item));
 
         return $item;
     }

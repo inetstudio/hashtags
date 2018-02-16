@@ -60,7 +60,10 @@ return [
             'posts' => [
                 ['data' => 'id', 'name' => 'id', 'title' => 'ID', 'orderable' => true],
                 ['data' => 'media', 'name' => 'media', 'title' => 'Медиа', 'orderable' => false, 'searchable' => false],
-                ['data' => 'info', 'name' => 'info', 'title' => 'Инфо', 'orderable' => false, 'searchable' => false],
+                ['data' => 'info', 'name' => 'info', 'title' => 'Инфо', 'orderable' => false, 'searchable' => true],
+                ['data' => 'date', 'name' => 'date', 'title' => 'Дата создания', 'orderable' => true, 'searchable' => true, 'orderData' => 4],
+                ['data' => 'orderDate', 'name' => 'orderDate', 'title' => 'Дата создания (сортировка)', 'orderable' => true, 'visible' => false],
+                ['data' => 'prizes', 'name' => 'prizes', 'title' => 'Призы', 'orderable' => false, 'searchable' => true],
                 ['data' => 'submit', 'name' => 'submit', 'title' => 'Подтверждение', 'orderable' => false, 'searchable' => false],
                 ['data' => 'statuses', 'name' => 'statuses', 'title' => 'Модерация', 'orderable' => false, 'searchable' => false],
                 ['data' => 'actions', 'name' => 'actions', 'title' => 'Действия', 'orderable' => false, 'searchable' => false],

@@ -2,8 +2,11 @@
 
 namespace InetStudio\Hashtags\Providers;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use InetStudio\Hashtags\Events\ModifyPostEvent;
 use InetStudio\Hashtags\Console\Commands\SetupCommand;
+use InetStudio\Hashtags\Listeners\ClearPostsCacheListener;
 use InetStudio\Hashtags\Services\Back\ContestPostsService;
 use InetStudio\Hashtags\Console\Commands\StatusesSeedCommand;
 use InetStudio\Hashtags\Console\Commands\CreateFoldersCommand;
@@ -28,6 +31,7 @@ class HashtagsServiceProvider extends ServiceProvider
         $this->registerPublishes();
         $this->registerRoutes();
         $this->registerViews();
+        $this->registerEvents();
     }
 
     /**
@@ -105,6 +109,16 @@ class HashtagsServiceProvider extends ServiceProvider
     protected function registerViews(): void
     {
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'admin.module.hashtags');
+    }
+
+    /**
+     * Регистрация событий.
+     *
+     * @return void
+     */
+    protected function registerEvents(): void
+    {
+        Event::listen(ModifyPostEvent::class, ClearPostsCacheListener::class);
     }
 
     /**

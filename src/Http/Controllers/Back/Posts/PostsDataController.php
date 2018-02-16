@@ -2,11 +2,13 @@
 
 namespace InetStudio\Hashtags\Http\Controllers\Back\Posts;
 
+use League\Fractal\Manager;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
 use InetStudio\Hashtags\Models\PostModel;
 use InetStudio\Hashtags\Models\StatusModel;
+use League\Fractal\Serializer\DataArraySerializer;
 use InetStudio\Hashtags\Transformers\Back\PostTransformer;
 
 /**
@@ -51,16 +53,17 @@ class PostsDataController extends Controller
             ])
             ->select(['id', 'hash', 'social_id', 'social_type', 'status_id'])
             ->where('status_id', $statusId)
-            ->withTrashed();
+            ->withTrashed()->get();
 
+        $resource = (new PostTransformer())->transformCollection($items);
+
+        $data = $this->serializeToArray($resource);
+
+        /*
         if ($request->filled('search.value')) {
             $items = $items->get();
             $search = $request->input('search.value');
         }
-
-        $datatables = DataTables::of($items)
-            ->setTransformer(new PostTransformer())
-            ->rawColumns(['media', 'info', 'submit', 'statuses', 'actions']);
 
         if (isset($search)) {
             $datatables->filter(function ($engine) use ($search) {
@@ -71,7 +74,28 @@ class PostsDataController extends Controller
                 });
             });
         }
+        */
+
+        $datatables = DataTables::of($data)
+            ->rawColumns(['media', 'info', 'submit', 'prizes', 'statuses', 'actions']);
 
         return $datatables->make();
+    }
+
+    /**
+     * Преобразовываем данные в массив.
+     *
+     * @param $resource
+     *
+     * @return array
+     */
+    private function serializeToArray($resource): array
+    {
+        $manager = new Manager();
+        $manager->setSerializer(new DataArraySerializer());
+
+        $transformation = $manager->createData($resource)->toArray();
+
+        return $transformation['data'];
     }
 }
