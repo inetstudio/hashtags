@@ -30,7 +30,7 @@ class PostsController extends Controller
      */
     public function getGallery(Request $request, string $social = ''): JsonResponse
     {
-        $cacheKey = 'gallery_'.md5($request->get('tag_id').$social);
+        $cacheKey = 'PostsController_getGallery';
 
         $items = Cache::tags(['hashtags_posts'])->remember($cacheKey, 60, function () use ($request, $social) {
             $mainStatuses = StatusModel::whereHas('classifiers', function ($classifiersQuery) {
@@ -111,7 +111,9 @@ class PostsController extends Controller
      */
     public function getDaysWinners(Request $request, string $prizeAlias = ''): JsonResponse
     {
-        $items = Cache::tags(['hashtags_posts'])->remember('dayWinners', 60, function() use ($request, $prizeAlias) {
+        $cacheKey = 'PostsController_getDaysWinners';
+
+        $items = Cache::remember($cacheKey, 60, function() use ($request, $prizeAlias) {
             $mainStatuses = StatusModel::whereHas('classifiers', function ($classifiersQuery) {
                 $classifiersQuery->where('classifiers.alias', 'main');
             })->pluck('id')->toArray();
@@ -174,9 +176,9 @@ class PostsController extends Controller
      */
     public function getStagesWinners(Request $request, string $stageAlias = '', string $prizeAlias = ''): JsonResponse
     {
-        $cacheKey = 'stagesWinners_'.md5($stageAlias);
+        $cacheKey = 'PostsController_getStagesWinners';
 
-        $items = Cache::tags(['hashtags_posts'])->remember($cacheKey, 60, function () use ($request, $stageAlias, $prizeAlias) {
+        $items = Cache::remember($cacheKey, 60, function () use ($request, $stageAlias, $prizeAlias) {
             $mainStatuses = StatusModel::whereHas('classifiers', function ($classifiersQuery) {
                 $classifiersQuery->where('classifiers.alias', 'main');
             })->pluck('id')->toArray();
