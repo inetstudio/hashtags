@@ -32,7 +32,7 @@ class PostsController extends Controller
     {
         $cacheKey = 'PostsController_getGallery';
 
-        $items = Cache::tags(['hashtags_posts'])->remember($cacheKey, 60, function () use ($request, $social) {
+        $items = Cache::remember($cacheKey, 60, function () use ($request, $social) {
             $mainStatuses = StatusModel::whereHas('classifiers', function ($classifiersQuery) {
                 $classifiersQuery->where('classifiers.alias', 'main');
             })->pluck('id')->toArray();
