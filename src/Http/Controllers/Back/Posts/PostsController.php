@@ -182,9 +182,9 @@ class PostsController extends Controller
                         break;
                 }
             }
-
-            event(new ModifyPostEvent($item));
         }
+
+        event(new ModifyPostEvent($item));
 
         $item = $this->services['ContestPosts']->moveToStatus($request, $item, $status);
 
