@@ -132,7 +132,6 @@ class StatusesController extends Controller implements StatusesControllerContrac
     public function destroy($id = null): JsonResponse
     {
         if (! is_null($id) && $id > 0 && $item = StatusModel::find($id)) {
-
             event(app()->makeWith('InetStudio\Hashtags\Contracts\Events\Statuses\ModifyStatusEventContract', ['object' => $item]));
 
             $item->delete();

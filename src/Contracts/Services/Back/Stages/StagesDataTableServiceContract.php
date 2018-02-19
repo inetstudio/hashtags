@@ -7,5 +7,4 @@ namespace InetStudio\Hashtags\Contracts\Services\Back\Stages;
  */
 interface StagesDataTableServiceContract
 {
-
 }

@@ -127,7 +127,6 @@ class PrizesController extends Controller implements PrizesControllerContract
     public function destroy($id = null): JsonResponse
     {
         if (! is_null($id) && $id > 0 && $item = PrizeModel::find($id)) {
-
             event(app()->makeWith('InetStudio\Hashtags\Contracts\Events\Prizes\ModifyPrizeEventContract', ['object' => $item]));
 
             $item->delete();

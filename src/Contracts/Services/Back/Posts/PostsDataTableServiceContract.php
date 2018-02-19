@@ -7,5 +7,4 @@ namespace InetStudio\Hashtags\Contracts\Services\Back\Posts;
  */
 interface PostsDataTableServiceContract
 {
-
 }

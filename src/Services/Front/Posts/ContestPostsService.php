@@ -73,7 +73,7 @@ class ContestPostsService implements ContestPostsServiceContract
             }
         });
 
-        $items =  array_values(array_filter($items->toArray()));
+        $items = array_values(array_filter($items->toArray()));
 
         $data['stop'] = false;
 
@@ -196,7 +196,6 @@ class ContestPostsService implements ContestPostsServiceContract
                 $prizes = collect($item['prizes']);
 
                 if ($prizes->contains('stage.id', $stage->id)) {
-
                     $prizes = $prizes->where('stage.id', $stage->id);
 
                     if ($prizeAlias) {

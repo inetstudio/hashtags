@@ -7,5 +7,4 @@ namespace InetStudio\Hashtags\Contracts\Http\Controllers\Back\Posts;
  */
 interface PostsDataControllerContract
 {
-
 }

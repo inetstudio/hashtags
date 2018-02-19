@@ -7,5 +7,4 @@ namespace InetStudio\Hashtags\Contracts\Transformers\Back\Tags;
  */
 interface TagTransformerContract
 {
-
 }

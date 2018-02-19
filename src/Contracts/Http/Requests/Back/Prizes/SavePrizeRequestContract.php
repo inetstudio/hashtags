@@ -7,5 +7,4 @@ namespace InetStudio\Hashtags\Contracts\Http\Requests\Back\Prizes;
  */
 interface SavePrizeRequestContract
 {
-
 }

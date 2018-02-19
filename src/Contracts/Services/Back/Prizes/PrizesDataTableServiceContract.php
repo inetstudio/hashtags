@@ -7,5 +7,4 @@ namespace InetStudio\Hashtags\Contracts\Services\Back\Prizes;
  */
 interface PrizesDataTableServiceContract
 {
-
 }

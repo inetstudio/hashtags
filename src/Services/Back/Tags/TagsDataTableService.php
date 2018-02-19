@@ -4,8 +4,8 @@ namespace InetStudio\Hashtags\Services\Back\Tags;
 
 use Yajra\DataTables\DataTables;
 use Yajra\DataTables\Html\Builder;
-use Yajra\DataTables\Services\DataTable;
 use InetStudio\Hashtags\Models\TagModel;
+use Yajra\DataTables\Services\DataTable;
 use InetStudio\Hashtags\Contracts\Services\Back\Tags\TagsDataTableServiceContract;
 
 /**

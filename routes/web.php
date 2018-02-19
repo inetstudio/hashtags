@@ -2,7 +2,7 @@
 
 Route::group([
     'middleware' => ['web', 'back.auth'],
-    'prefix' => 'back/hashtags'
+    'prefix' => 'back/hashtags',
 ], function () {
     Route::group([
         'namespace' => 'InetStudio\Hashtags\Contracts\Http\Controllers\Back\Points',

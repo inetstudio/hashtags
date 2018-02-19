@@ -47,7 +47,7 @@ class TagsController extends Controller implements TagsControllerContract
      * Создание тега.
      *
      * @param SaveTagRequestContract $request
-     * 
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(SaveTagRequestContract $request): RedirectResponse
@@ -59,7 +59,7 @@ class TagsController extends Controller implements TagsControllerContract
      * Редактирование тега.
      *
      * @param null $id
-     * 
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id = null): View
@@ -78,7 +78,7 @@ class TagsController extends Controller implements TagsControllerContract
      *
      * @param SaveTagRequestContract $request
      * @param null $id
-     * 
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(SaveTagRequestContract $request, $id = null): RedirectResponse
@@ -91,7 +91,7 @@ class TagsController extends Controller implements TagsControllerContract
      *
      * @param SaveTagRequestContract $request
      * @param null $id
-     * 
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     private function save(SaveTagRequestContract $request, $id = null): RedirectResponse
@@ -119,13 +119,12 @@ class TagsController extends Controller implements TagsControllerContract
      * Удаление тега.
      *
      * @param null $id
-     * 
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id = null): JsonResponse
     {
         if (! is_null($id) && $id > 0 && $item = TagModel::find($id)) {
-
             event(app()->makeWith('InetStudio\Hashtags\Contracts\Events\Tags\ModifyTagEventContract', ['object' => $item]));
 
             $item->delete();

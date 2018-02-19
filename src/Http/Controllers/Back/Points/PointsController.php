@@ -128,7 +128,6 @@ class PointsController extends Controller implements PointsControllerContract
     public function destroy($id = null): JsonResponse
     {
         if (! is_null($id) && $id > 0 && $item = PointModel::find($id)) {
-
             event(app()->makeWith('InetStudio\Hashtags\Contracts\Events\Points\ModifyPointEventContract', ['object' => $item]));
 
             $item->delete();

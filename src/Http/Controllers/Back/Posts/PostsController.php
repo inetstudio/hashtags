@@ -61,11 +61,10 @@ class PostsController extends Controller implements PostsControllerContract
                 ->select([
                     'id', 'type',
                 ]);
-            }
+            },
         ])->withTrashed()->select(['id', 'social_id', 'social_type', 'status_id', 'position'])->where('status_id', $status->id)->orderBy('position', 'desc')->get();
 
         $sortItems = $postsSort->map(function ($post) {
-
             $images = ($post->social->hasMedia('images')) ? $post->social->getFirstMedia('images') : null;
             $videos = ($post->social->hasMedia('videos')) ? $post->social->getFirstMedia('videos') : null;
 
