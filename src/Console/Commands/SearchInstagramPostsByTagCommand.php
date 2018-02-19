@@ -6,10 +6,10 @@ use Illuminate\Console\Command;
 use InetStudio\Hashtags\Models\PostModel;
 use InetStudio\Hashtags\Models\StatusModel;
 use InetStudio\Instagram\Models\InstagramPostModel;
-use InetStudio\Hashtags\Contracts\Services\Back\ContestPostsServiceContract;
-use InetStudio\Instagram\Contracts\Services\Back\InstagramPostsServiceContract;
-use InetStudio\Instagram\Contracts\Services\Back\InstagramUsersServiceContract;
 
+/**
+ * Class SearchInstagramPostsByTagCommand.
+ */
 class SearchInstagramPostsByTagCommand extends Command
 {
     /**
@@ -55,9 +55,9 @@ class SearchInstagramPostsByTagCommand extends Command
             }
         }
 
-        $this->services['InstagramPosts'] = app()->make(InstagramPostsServiceContract::class);
-        $this->services['InstagramUsers'] = app()->make(InstagramUsersServiceContract::class);
-        $this->services['ContestPosts'] = app()->make(ContestPostsServiceContract::class);
+        $this->services['InstagramPosts'] = app()->make('InetStudio\Instagram\Contracts\Services\Back\InstagramPostsServiceContract');
+        $this->services['InstagramUsers'] = app()->make('InetStudio\Instagram\Contracts\Services\Back\InstagramUsersServiceContract');
+        $this->services['ContestPosts'] = app()->make('InetStudio\Hashtags\Contracts\Services\Back\Posts\ContestPostsServiceContract');
     }
 
     /**

@@ -12,19 +12,15 @@ use Illuminate\Support\Facades\Session;
 use InetStudio\Hashtags\Models\PostModel;
 use InetStudio\Hashtags\Models\PrizeModel;
 use InetStudio\Hashtags\Models\StatusModel;
-use InetStudio\Hashtags\Events\ModifyPostEvent;
-use InetStudio\Hashtags\Http\Requests\Back\SavePostRequest;
-use InetStudio\AdminPanel\Http\Controllers\Back\Traits\DatatablesTrait;
-use InetStudio\Hashtags\Contracts\Services\Back\ContestPostsServiceContract;
+use InetStudio\Hashtags\Contracts\Http\Requests\Back\Posts\SavePostRequestContract;
+use InetStudio\Hashtags\Contracts\Services\Back\Posts\PostsDataTableServiceContract;
+use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Posts\PostsControllerContract;
 
 /**
- * Class PostsController
- * @package InetStudio\Hashtags\Http\Controllers\Back
+ * Class PostsController.
  */
-class PostsController extends Controller
+class PostsController extends Controller implements PostsControllerContract
 {
-    use DatatablesTrait;
-
     private $services = [];
 
     /**
@@ -32,18 +28,18 @@ class PostsController extends Controller
      */
     public function __construct()
     {
-        $this->services['ContestPosts'] = app()->make(ContestPostsServiceContract::class);
+        $this->services['ContestPosts'] = app()->make('InetStudio\Hashtags\Contracts\Services\Back\Posts\ContestPostsServiceContract');
     }
 
     /**
      * Список постов.
      *
+     * @param PostsDataTableServiceContract $dataTableService
      * @param string $status
-     * @return View
      *
-     * @throws \Exception
+     * @return View
      */
-    public function index($status = ''): View
+    public function index(PostsDataTableServiceContract $dataTableService, $status = ''): View
     {
         $alias = ($status) ? $status : 'moderation';
         $status = StatusModel::where('alias', $alias)->first();
@@ -88,7 +84,7 @@ class PostsController extends Controller
             ];
         });
 
-        $table = $this->generateTable('hashtags', 'posts');
+        $table = $dataTableService->html();
 
         return view('admin.module.hashtags::back.pages.posts.index', [
             'statuses' => $statuses,
@@ -130,12 +126,12 @@ class PostsController extends Controller
     /**
      * Обновление конкурсного поста.
      *
-     * @param SavePostRequest $request
+     * @param SavePostRequestContract $request
      * @param null $id
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(SavePostRequest $request, $id = null): RedirectResponse
+    public function update(SavePostRequestContract $request, $id = null): RedirectResponse
     {
         return $this->save($request, $id);
     }
@@ -143,12 +139,12 @@ class PostsController extends Controller
     /**
      * Сохранение конкурсного поста.
      *
-     * @param $request
+     * @param SavePostRequestContract $request
      * @param null $id
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    private function save($request, $id = null): RedirectResponse
+    private function save(SavePostRequestContract $request, $id = null): RedirectResponse
     {
         if (! is_null($id) && $id > 0 && $item = PostModel::withTrashed()->find($id)) {
             $action = 'отредактирован';
@@ -184,7 +180,7 @@ class PostsController extends Controller
             }
         }
 
-        event(new ModifyPostEvent($item));
+        event(app()->makeWith('InetStudio\Hashtags\Contracts\Events\Posts\ModifyPostEventContract', ['object' => $item]));
 
         $item = $this->services['ContestPosts']->moveToStatus($request, $item, $status);
 

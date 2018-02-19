@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use InetStudio\Hashtags\Models\TagModel;
+use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Tags\TagsUtilityControllerContract;
 
 /**
- * Class TagsUtilityController
- * @package InetStudio\Hashtags\Http\Controllers\Back\Tags
+ * Class TagsUtilityController.
  */
-class TagsUtilityController extends Controller
+class TagsUtilityController extends Controller implements TagsUtilityControllerContract
 {
     /**
      * Возвращаем теги для поля.

@@ -8,29 +8,28 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
 use InetStudio\Hashtags\Models\StatusModel;
-use InetStudio\Hashtags\Http\Requests\Back\SaveStatusRequest;
-use InetStudio\AdminPanel\Http\Controllers\Back\Traits\DatatablesTrait;
 use InetStudio\Classifiers\Http\Controllers\Back\Traits\ClassifiersManipulationsTrait;
+use InetStudio\Hashtags\Contracts\Http\Requests\Back\Statuses\SaveStatusRequestContract;
+use InetStudio\Hashtags\Contracts\Services\Back\Statuses\StatusesDataTableServiceContract;
+use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Statuses\StatusesControllerContract;
 
 /**
- * Class StatusesController
- * @package InetStudio\Hashtags\Http\Controllers\Back\Statuses
+ * Class StatusesController.
  */
-class StatusesController extends Controller
+class StatusesController extends Controller implements StatusesControllerContract
 {
-    use DatatablesTrait;
     use ClassifiersManipulationsTrait;
 
     /**
      * Список статусов.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param StatusesDataTableServiceContract $dataTableService
      *
-     * @throws \Exception
+     * @return View
      */
-    public function index(): View
+    public function index(StatusesDataTableServiceContract $dataTableService): View
     {
-        $table = $this->generateTable('hashtags', 'statuses');
+        $table = $dataTableService->html();
 
         return view('admin.module.hashtags::back.pages.statuses.index', compact('table'));
     }
@@ -50,11 +49,11 @@ class StatusesController extends Controller
     /**
      * Создание статуса.
      *
-     * @param SaveStatusRequest $request
+     * @param SaveStatusRequestContract $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(SaveStatusRequest $request): RedirectResponse
+    public function store(SaveStatusRequestContract $request): RedirectResponse
     {
         return $this->save($request);
     }
@@ -80,12 +79,12 @@ class StatusesController extends Controller
     /**
      * Обновление статуса.
      *
-     * @param SaveStatusRequest $request
+     * @param SaveStatusRequestContract $request
      * @param null $id
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(SaveStatusRequest $request, $id = null): RedirectResponse
+    public function update(SaveStatusRequestContract $request, $id = null): RedirectResponse
     {
         return $this->save($request, $id);
     }
@@ -93,12 +92,12 @@ class StatusesController extends Controller
     /**
      * Сохранение статуса.
      *
-     * @param $request
+     * @param SaveStatusRequestContract $request
      * @param null $id
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    private function save($request, $id = null): RedirectResponse
+    private function save(SaveStatusRequestContract $request, $id = null): RedirectResponse
     {
         if (! is_null($id) && $id > 0 && $item = StatusModel::find($id)) {
             $action = 'отредактирован';
@@ -113,6 +112,8 @@ class StatusesController extends Controller
         $item->save();
 
         $this->saveClassifiers($item, $request);
+
+        event(app()->makeWith('InetStudio\Hashtags\Contracts\Events\Statuses\ModifyStatusEventContract', ['object' => $item]));
 
         Session::flash('success', 'Статус «'.$item->name.'» успешно '.$action);
 
@@ -131,6 +132,9 @@ class StatusesController extends Controller
     public function destroy($id = null): JsonResponse
     {
         if (! is_null($id) && $id > 0 && $item = StatusModel::find($id)) {
+
+            event(app()->makeWith('InetStudio\Hashtags\Contracts\Events\Statuses\ModifyStatusEventContract', ['object' => $item]));
+
             $item->delete();
 
             return response()->json([

@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use InetStudio\Hashtags\Models\StageModel;
+use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Stages\StagesUtilityControllerContract;
 
 /**
- * Class StagesUtilityController
- * @package InetStudio\Hashtags\Http\Controllers\Back\Stages
+ * Class StagesUtilityController.
  */
-class StagesUtilityController extends Controller
+class StagesUtilityController extends Controller implements StagesUtilityControllerContract
 {
     /**
      * Возвращаем этапы для поля.

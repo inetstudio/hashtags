@@ -8,27 +8,25 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
 use InetStudio\Hashtags\Models\TagModel;
-use InetStudio\Hashtags\Http\Requests\Back\SaveTagRequest;
-use InetStudio\AdminPanel\Http\Controllers\Back\Traits\DatatablesTrait;
+use InetStudio\Hashtags\Contracts\Http\Requests\Back\Tags\SaveTagRequestContract;
+use InetStudio\Hashtags\Contracts\Services\Back\Tags\TagsDataTableServiceContract;
+use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Tags\TagsControllerContract;
 
 /**
- * Class TagsController
- * @package InetStudio\Hashtags\Http\Controllers\Back\Tags
+ * Class TagsController.
  */
-class TagsController extends Controller
+class TagsController extends Controller implements TagsControllerContract
 {
-    use DatatablesTrait;
-    
     /**
      * Список тегов.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param TagsDataTableServiceContract $dataTableService
      *
-     * @throws \Exception
+     * @return View
      */
-    public function index(): View
+    public function index(TagsDataTableServiceContract $dataTableService): View
     {
-        $table = $this->generateTable('hashtags', 'tags');
+        $table = $dataTableService->html();
 
         return view('admin.module.hashtags::back.pages.tags.index', compact('table'));
     }
@@ -48,11 +46,11 @@ class TagsController extends Controller
     /**
      * Создание тега.
      *
-     * @param SaveTagRequest $request
+     * @param SaveTagRequestContract $request
      * 
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(SaveTagRequest $request): RedirectResponse
+    public function store(SaveTagRequestContract $request): RedirectResponse
     {
         return $this->save($request);
     }
@@ -78,12 +76,12 @@ class TagsController extends Controller
     /**
      * Обновление тега.
      *
-     * @param SaveTagRequest $request
+     * @param SaveTagRequestContract $request
      * @param null $id
      * 
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(SaveTagRequest $request, $id = null): RedirectResponse
+    public function update(SaveTagRequestContract $request, $id = null): RedirectResponse
     {
         return $this->save($request, $id);
     }
@@ -91,12 +89,12 @@ class TagsController extends Controller
     /**
      * Сохранение тега.
      *
-     * @param $request
+     * @param SaveTagRequestContract $request
      * @param null $id
      * 
      * @return \Illuminate\Http\RedirectResponse
      */
-    private function save($request, $id = null): RedirectResponse
+    private function save(SaveTagRequestContract $request, $id = null): RedirectResponse
     {
         if (! is_null($id) && $id > 0 && $item = TagModel::find($id)) {
             $action = 'отредактирован';
@@ -107,6 +105,8 @@ class TagsController extends Controller
 
         $item->name = trim(strip_tags($request->get('name')));
         $item->save();
+
+        event(app()->makeWith('InetStudio\Hashtags\Contracts\Events\Tags\ModifyTagEventContract', ['object' => $item]));
 
         Session::flash('success', 'Тег «'.$item->name.'» успешно '.$action);
 
@@ -125,6 +125,9 @@ class TagsController extends Controller
     public function destroy($id = null): JsonResponse
     {
         if (! is_null($id) && $id > 0 && $item = TagModel::find($id)) {
+
+            event(app()->makeWith('InetStudio\Hashtags\Contracts\Events\Tags\ModifyTagEventContract', ['object' => $item]));
+
             $item->delete();
 
             return response()->json([

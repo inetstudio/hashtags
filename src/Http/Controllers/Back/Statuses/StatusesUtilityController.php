@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use InetStudio\Hashtags\Models\StatusModel;
+use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Statuses\StatusesUtilityControllerContract;
 
 /**
- * Class StatusesUtilityController
- * @package InetStudio\Hashtags\Http\Controllers\Back\Statuses
+ * Class StatusesUtilityController.
  */
-class StatusesUtilityController extends Controller
+class StatusesUtilityController extends Controller implements StatusesUtilityControllerContract
 {
     /**
      * Возвращаем статусы для поля.

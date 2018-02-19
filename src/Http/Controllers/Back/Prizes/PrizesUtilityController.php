@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use InetStudio\Hashtags\Models\PrizeModel;
+use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Prizes\PrizesUtilityControllerContract;
 
 /**
- * Class PrizesUtilityController
- * @package InetStudio\Hashtags\Http\Controllers\Back\Prizes
+ * Class PrizesUtilityController.
  */
-class PrizesUtilityController extends Controller
+class PrizesUtilityController extends Controller implements PrizesUtilityControllerContract
 {
     /**
      * Возвращаем призы для поля.

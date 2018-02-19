@@ -6,10 +6,10 @@ use Illuminate\Console\Command;
 use InetStudio\Hashtags\Models\PostModel;
 use InetStudio\Hashtags\Models\StatusModel;
 use InetStudio\Vkontakte\Models\VkontaktePostModel;
-use InetStudio\Hashtags\Contracts\Services\Back\ContestPostsServiceContract;
-use InetStudio\Vkontakte\Contracts\Services\Back\VkontaktePostsServiceContract;
-use InetStudio\Vkontakte\Contracts\Services\Back\VkontakteUsersServiceContract;
 
+/**
+ * Class SearchVkontaktePostsByTagCommand.
+ */
 class SearchVkontaktePostsByTagCommand extends Command
 {
     /**
@@ -52,9 +52,9 @@ class SearchVkontaktePostsByTagCommand extends Command
             }
         }
 
-        $this->services['VkontaktePosts'] = app()->make(VkontaktePostsServiceContract::class);
-        $this->services['VkontakteUsers'] = app()->make(VkontakteUsersServiceContract::class);
-        $this->services['ContestPosts'] = app()->make(ContestPostsServiceContract::class);
+        $this->services['VkontaktePosts'] = app()->make('InetStudio\Vkontakte\Contracts\Services\Back\VkontaktePostsServiceContract');
+        $this->services['VkontakteUsers'] = app()->make('InetStudio\Vkontakte\Contracts\Services\Back\VkontakteUsersServiceContract');
+        $this->services['ContestPosts'] = app()->make('InetStudio\Hashtags\Contracts\Services\Back\Posts\ContestPostsServiceContract');
     }
 
     /**

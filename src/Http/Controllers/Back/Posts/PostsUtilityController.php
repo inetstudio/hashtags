@@ -7,12 +7,12 @@ use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use InetStudio\Hashtags\Models\PostModel;
 use InetStudio\Hashtags\Models\StatusModel;
+use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Posts\PostsUtilityControllerContract;
 
 /**
- * Class PostsUtilityController
- * @package InetStudio\Hashtags\Http\Controllers\Back\Posts
+ * Class PostsUtilityController.
  */
-class PostsUtilityController extends Controller
+class PostsUtilityController extends Controller implements PostsUtilityControllerContract
 {
     /**
      * Скачиваем архив работ.

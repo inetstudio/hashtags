@@ -2,31 +2,24 @@
 
 namespace InetStudio\Hashtags\Http\Controllers\Back\Prizes;
 
-use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
-use InetStudio\Hashtags\Models\PrizeModel;
-use InetStudio\Hashtags\Transformers\Back\PrizeTransformer;
+use InetStudio\Hashtags\Contracts\Services\Back\Prizes\PrizesDataTableServiceContract;
+use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Prizes\PrizesDataControllerContract;
 
 /**
- * Class PrizesDataController
- * @package InetStudio\Hashtags\Http\Controllers\Back\Prizes
+ * Class PrizesDataController.
  */
-class PrizesDataController extends Controller
+class PrizesDataController extends Controller implements PrizesDataControllerContract
 {
     /**
-     * DataTables ServerSide.
+     * Получаем данные для отображения в таблице.
+     *
+     * @param PrizesDataTableServiceContract $dataTableService
      *
      * @return mixed
-     *
-     * @throws \Exception
      */
-    public function data()
+    public function data(PrizesDataTableServiceContract $dataTableService)
     {
-        $items = PrizeModel::query();
-
-        return DataTables::of($items)
-            ->setTransformer(new PrizeTransformer)
-            ->rawColumns(['actions'])
-            ->make();
+        return $dataTableService->ajax();
     }
 }

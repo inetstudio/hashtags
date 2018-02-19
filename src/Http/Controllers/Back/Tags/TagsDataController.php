@@ -2,31 +2,24 @@
 
 namespace InetStudio\Hashtags\Http\Controllers\Back\Tags;
 
-use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
-use InetStudio\Hashtags\Models\TagModel;
-use InetStudio\Hashtags\Transformers\Back\TagTransformer;
+use InetStudio\Hashtags\Contracts\Services\Back\Tags\TagsDataTableServiceContract;
+use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Tags\TagsDataControllerContract;
 
 /**
- * Class TagsDataController
- * @package InetStudio\Hashtags\Http\Controllers\Back\Tags
+ * Class TagsDataController.
  */
-class TagsDataController extends Controller
+class TagsDataController extends Controller implements TagsDataControllerContract
 {
     /**
-     * DataTables ServerSide.
+     * Получаем данные для отображения в таблице.
+     *
+     * @param TagsDataTableServiceContract $dataTableService
      *
      * @return mixed
-     *
-     * @throws \Exception
      */
-    public function data()
+    public function data(TagsDataTableServiceContract $dataTableService)
     {
-        $items = TagModel::query();
-
-        return Datatables::of($items)
-            ->setTransformer(new TagTransformer)
-            ->rawColumns(['actions'])
-            ->make();
+        return $dataTableService->ajax();
     }
 }

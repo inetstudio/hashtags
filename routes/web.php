@@ -5,83 +5,77 @@ Route::group([
     'prefix' => 'back/hashtags'
 ], function () {
     Route::group([
-        'namespace' => 'InetStudio\Hashtags\Http\Controllers\Back\Points',
+        'namespace' => 'InetStudio\Hashtags\Contracts\Http\Controllers\Back\Points',
     ], function () {
-        Route::any('points/data', 'PointsDataController@data')->name('back.hashtags.points.data');
+        Route::any('points/data', 'PointsDataControllerContract@data')->name('back.hashtags.points.data.index');
 
-        Route::resource('points', 'PointsController', ['except' => [
+        Route::resource('points', 'PointsControllerContract', ['except' => [
             'show',
         ], 'as' => 'back.hashtags']);
     });
 
     Route::group([
-        'namespace' => 'InetStudio\Hashtags\Http\Controllers\Back\Prizes',
+        'namespace' => 'InetStudio\Hashtags\Contracts\Http\Controllers\Back\Prizes',
     ], function () {
-        Route::any('prizes/data', 'PrizesDataController@data')->name('back.hashtags.prizes.data');
+        Route::any('prizes/data', 'PrizesDataControllerContract@data')->name('back.hashtags.prizes.data.index');
 
-        Route::post('prizes/suggestions', 'PrizesUtilityController@getSuggestions')->name('back.hashtags.prizes.getSuggestions');
+        Route::post('prizes/suggestions', 'PrizesUtilityControllerContract@getSuggestions')->name('back.hashtags.prizes.getSuggestions');
 
-        Route::resource('prizes', 'PrizesController', ['except' => [
+        Route::resource('prizes', 'PrizesControllerContract', ['except' => [
             'show',
         ], 'as' => 'back.hashtags']);
     });
 
     Route::group([
-        'namespace' => 'InetStudio\Hashtags\Http\Controllers\Back\Stages',
+        'namespace' => 'InetStudio\Hashtags\Contracts\Http\Controllers\Back\Stages',
     ], function () {
-        Route::any('stages/data', 'StagesDataController@data')->name('back.hashtags.stages.data');
+        Route::any('stages/data', 'StagesDataControllerContract@data')->name('back.hashtags.stages.data.index');
 
-        Route::post('stages/suggestions', 'StagesUtilityController@getSuggestions')->name('back.hashtags.stages.getSuggestions');
+        Route::post('stages/suggestions', 'StagesUtilityControllerContract@getSuggestions')->name('back.hashtags.stages.getSuggestions');
 
-        Route::resource('stages', 'StagesController', ['except' => [
+        Route::resource('stages', 'StagesControllerContract', ['except' => [
             'show',
         ], 'as' => 'back.hashtags']);
     });
 
     Route::group([
-        'namespace' => 'InetStudio\Hashtags\Http\Controllers\Back\Statuses',
+        'namespace' => 'InetStudio\Hashtags\Contracts\Http\Controllers\Back\Statuses',
     ], function () {
-        Route::any('statuses/data', 'StatusesDataController@data')->name('back.hashtags.statuses.data');
+        Route::any('statuses/data', 'StatusesDataControllerContract@data')->name('back.hashtags.statuses.data.index');
 
-        Route::post('statuses/suggestions', 'StatusesUtilityController@getSuggestions')->name('back.hashtags.statuses.getSuggestions');
+        Route::post('statuses/suggestions', 'StatusesUtilityControllerContract@getSuggestions')->name('back.hashtags.statuses.getSuggestions');
 
-        Route::resource('statuses', 'StatusesController', ['except' => [
+        Route::resource('statuses', 'StatusesControllerContract', ['except' => [
             'show',
         ], 'as' => 'back.hashtags']);
     });
 
     Route::group([
-        'namespace' => 'InetStudio\Hashtags\Http\Controllers\Back\Tags',
+        'namespace' => 'InetStudio\Hashtags\Contracts\Http\Controllers\Back\Tags',
     ], function () {
-        Route::any('tags/data', 'TagsDataController@data')->name('back.hashtags.tags.data');
+        Route::any('tags/data', 'TagsDataControllerContract@data')->name('back.hashtags.tags.data.index');
 
-        Route::post('tags/suggestions', 'TagsUtilityController@getSuggestions')->name('back.hashtags.tags.getSuggestions');
+        Route::post('tags/suggestions', 'TagsUtilityControllerContract@getSuggestions')->name('back.hashtags.tags.getSuggestions');
 
-        Route::resource('tags', 'TagsController', ['except' => [
+        Route::resource('tags', 'TagsControllerContract', ['except' => [
             'show',
         ], 'as' => 'back.hashtags']);
     });
 
     Route::group([
-        'namespace' => 'InetStudio\Hashtags\Http\Controllers\Back\Posts',
+        'namespace' => 'InetStudio\Hashtags\Contracts\Http\Controllers\Back\Posts',
     ], function () {
-        Route::any('posts/data', 'PostsDataController@data')->name('back.hashtags.posts.data');
+        Route::any('posts/data', 'PostsDataControllerContract@data')->name('back.hashtags.posts.data.index');
 
-        Route::post('posts/append', 'PostsModerationController@add')->name('back.hashtags.posts.append');
-        Route::post('posts/sort', 'PostsModerationController@sort')->name('back.hashtags.posts.sort');
-        Route::any('posts/moderate/{id}/{status}', 'PostsModerationController@moderate')->name('back.hashtags.posts.moderate');
+        Route::post('posts/append', 'PostsModerationControllerContract@add')->name('back.hashtags.posts.append');
+        Route::post('posts/sort', 'PostsModerationControllerContract@sort')->name('back.hashtags.posts.sort');
+        Route::any('posts/moderate/{id}/{status}', 'PostsModerationControllerContract@moderate')->name('back.hashtags.posts.moderate');
 
-        Route::get('posts/download/{status}/{id?}', 'PostsUtilityController@download')->name('back.hashtags.posts.download');
+        Route::get('posts/download/{status}/{id?}', 'PostsUtilityControllerContract@download')->name('back.hashtags.posts.download');
 
-        Route::get('posts/{status?}', 'PostsController@index')->name('back.hashtags.posts.index');
-        Route::resource('posts', 'PostsController', ['except' => [
+        Route::get('posts/{status?}', 'PostsControllerContract@index')->name('back.hashtags.posts.index');
+        Route::resource('posts', 'PostsControllerContract', ['except' => [
             'show', 'index', 'create',
         ], 'as' => 'back.hashtags']);
     });
-});
-
-Route::group(['namespace' => 'InetStudio\Hashtags\Http\Controllers\Front'], function () {
-    Route::any('module/hashtags/gallery/{social?}', 'PostsController@getGallery')->name('front.hashtags.posts.gallery');
-    Route::any('module/hashtags/getDaysWinners/{prize?}', 'PostsController@getDaysWinners')->name('front.hashtags.posts.daysWinners');
-    Route::any('module/hashtags/getStagesWinners/{stage?}/{prize?}', 'PostsController@getStagesWinners')->name('front.hashtags.posts.stagesWinners');
 });

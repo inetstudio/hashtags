@@ -7,8 +7,7 @@ use InetStudio\Hashtags\Models\StatusModel;
 use InetStudio\Classifiers\Models\ClassifierModel;
 
 /**
- * Class StatusesSeedCommand
- * @package InetStudio\Hashtags\Console\Commands
+ * Class StatusesSeedCommand.
  */
 class StatusesSeedCommand extends Command
 {

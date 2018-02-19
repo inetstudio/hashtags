@@ -2,31 +2,24 @@
 
 namespace InetStudio\Hashtags\Http\Controllers\Back\Stages;
 
-use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
-use InetStudio\Hashtags\Models\StageModel;
-use InetStudio\Hashtags\Transformers\Back\StageTransformer;
+use InetStudio\Hashtags\Contracts\Services\Back\Stages\StagesDataTableServiceContract;
+use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Stages\StagesDataControllerContract;
 
 /**
- * Class StagesDataController
- * @package InetStudio\Hashtags\Http\Controllers\Back\Stages
+ * Class StagesDataController.
  */
-class StagesDataController extends Controller
+class StagesDataController extends Controller implements StagesDataControllerContract
 {
     /**
-     * DataTables ServerSide.
+     * Получаем данные для отображения в таблице.
+     *
+     * @param StagesDataTableServiceContract $dataTableService
      *
      * @return mixed
-     *
-     * @throws \Exception
      */
-    public function data()
+    public function data(StagesDataTableServiceContract $dataTableService)
     {
-        $items = StageModel::query();
-
-        return DataTables::of($items)
-            ->setTransformer(new StageTransformer)
-            ->rawColumns(['actions'])
-            ->make();
+        return $dataTableService->ajax();
     }
 }

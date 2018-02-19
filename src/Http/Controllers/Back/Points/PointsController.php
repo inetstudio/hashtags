@@ -8,27 +8,25 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
 use InetStudio\Hashtags\Models\PointModel;
-use InetStudio\Hashtags\Http\Requests\Back\SavePointRequest;
-use InetStudio\AdminPanel\Http\Controllers\Back\Traits\DatatablesTrait;
+use InetStudio\Hashtags\Contracts\Http\Requests\Back\Points\SavePointRequestContract;
+use InetStudio\Hashtags\Contracts\Services\Back\Points\PointsDataTableServiceContract;
+use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Points\PointsControllerContract;
 
 /**
- * Class PointsController
- * @package InetStudio\Hashtags\Http\Controllers\Back\Points
+ * Class PointsController.
  */
-class PointsController extends Controller
+class PointsController extends Controller implements PointsControllerContract
 {
-    use DatatablesTrait;
-
     /**
      * Список баллов.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param PointsDataTableServiceContract $dataTableService
      *
-     * @throws \Exception
+     * @return View
      */
-    public function index(): View
+    public function index(PointsDataTableServiceContract $dataTableService): View
     {
-        $table = $this->generateTable('hashtags', 'points');
+        $table = $dataTableService->html();
 
         return view('admin.module.hashtags::back.pages.points.index', compact('table'));
     }
@@ -48,10 +46,11 @@ class PointsController extends Controller
     /**
      * Создание баллов.
      *
-     * @param SavePointRequest $request
+     * @param SavePointRequestContract $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(SavePointRequest $request): RedirectResponse
+    public function store(SavePointRequestContract $request): RedirectResponse
     {
         return $this->save($request);
     }
@@ -60,6 +59,7 @@ class PointsController extends Controller
      * Редактирование баллов.
      *
      * @param null $id
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id = null): View
@@ -76,12 +76,12 @@ class PointsController extends Controller
     /**
      * Обновление баллов.
      *
-     * @param SavePointRequest $request
+     * @param SavePointRequestContract $request
      * @param null $id
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(SavePointRequest $request, $id = null): RedirectResponse
+    public function update(SavePointRequestContract $request, $id = null): RedirectResponse
     {
         return $this->save($request, $id);
     }
@@ -109,6 +109,8 @@ class PointsController extends Controller
         $item->show = ($request->filled('show')) ? true : false;
         $item->save();
 
+        event(app()->makeWith('InetStudio\Hashtags\Contracts\Events\Points\ModifyPointEventContract', ['object' => $item]));
+
         Session::flash('success', 'Баллы «'.$item->name.'» успешно '.$action);
 
         return response()->redirectToRoute('back.hashtags.points.edit', [
@@ -126,6 +128,9 @@ class PointsController extends Controller
     public function destroy($id = null): JsonResponse
     {
         if (! is_null($id) && $id > 0 && $item = PointModel::find($id)) {
+
+            event(app()->makeWith('InetStudio\Hashtags\Contracts\Events\Points\ModifyPointEventContract', ['object' => $item]));
+
             $item->delete();
 
             return response()->json([

@@ -8,27 +8,25 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
 use InetStudio\Hashtags\Models\StageModel;
-use InetStudio\Hashtags\Http\Requests\Back\SaveStageRequest;
-use InetStudio\AdminPanel\Http\Controllers\Back\Traits\DatatablesTrait;
+use InetStudio\Hashtags\Contracts\Http\Requests\Back\Stages\SaveStageRequestContract;
+use InetStudio\Hashtags\Contracts\Services\Back\Stages\StagesDataTableServiceContract;
+use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Stages\StagesControllerContract;
 
 /**
- * Class StagesController
- * @package InetStudio\Hashtags\Http\Controllers\Back\Stages
+ * Class StagesController.
  */
-class StagesController extends Controller
+class StagesController extends Controller implements StagesControllerContract
 {
-    use DatatablesTrait;
-
     /**
      * Список этапов.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param StagesDataTableServiceContract $dataTableService
      *
-     * @throws \Exception
+     * @return View
      */
-    public function index(): View
+    public function index(StagesDataTableServiceContract $dataTableService): View
     {
-        $table = $this->generateTable('hashtags', 'stages');
+        $table = $dataTableService->html();
 
         return view('admin.module.hashtags::back.pages.stages.index', compact('table'));
     }
@@ -48,11 +46,11 @@ class StagesController extends Controller
     /**
      * Создание этапа.
      *
-     * @param SaveStageRequest $request
+     * @param SaveStageRequestContract $request
      * 
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(SaveStageRequest $request): RedirectResponse
+    public function store(SaveStageRequestContract $request): RedirectResponse
     {
         return $this->save($request);
     }
@@ -78,12 +76,12 @@ class StagesController extends Controller
     /**
      * Обновление этапа.
      *
-     * @param SaveStageRequest $request
+     * @param SaveStageRequestContract $request
      * @param null $id
      * 
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(SaveStageRequest $request, $id = null): RedirectResponse
+    public function update(SaveStageRequestContract $request, $id = null): RedirectResponse
     {
         return $this->save($request, $id);
     }
@@ -91,12 +89,12 @@ class StagesController extends Controller
     /**
      * Сохранение этапа.
      *
-     * @param $request
+     * @param SaveStageRequestContract $request
      * @param null $id
      * 
      * @return \Illuminate\Http\RedirectResponse
      */
-    private function save($request, $id = null): RedirectResponse
+    private function save(SaveStageRequestContract $request, $id = null): RedirectResponse
     {
         if (! is_null($id) && $id > 0 && $item = StageModel::find($id)) {
             $action = 'отредактирован';
@@ -109,6 +107,8 @@ class StagesController extends Controller
         $item->alias = trim(strip_tags($request->get('alias')));
         $item->description = trim($request->input('description.text'));
         $item->save();
+
+        event(app()->makeWith('InetStudio\Hashtags\Contracts\Events\Stages\ModifyStageEventContract', ['object' => $item]));
 
         Session::flash('success', 'Этап «'.$item->name.'» успешно '.$action);
 
@@ -127,6 +127,9 @@ class StagesController extends Controller
     public function destroy($id = null): JsonResponse
     {
         if (! is_null($id) && $id > 0 && $item = StageModel::find($id)) {
+
+            event(app()->makeWith('InetStudio\Hashtags\Contracts\Events\Stages\ModifyStageEventContract', ['object' => $item]));
+
             $item->delete();
 
             return response()->json([

@@ -8,27 +8,25 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
 use InetStudio\Hashtags\Models\PrizeModel;
-use InetStudio\Hashtags\Http\Requests\Back\SavePrizeRequest;
-use InetStudio\AdminPanel\Http\Controllers\Back\Traits\DatatablesTrait;
+use InetStudio\Hashtags\Contracts\Http\Requests\Back\Prizes\SavePrizeRequestContract;
+use InetStudio\Hashtags\Contracts\Services\Back\Prizes\PrizesDataTableServiceContract;
+use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Prizes\PrizesControllerContract;
 
 /**
- * Class PrizesController
- * @package InetStudio\Hashtags\Http\Controllers\Back\Prizes
+ * Class PrizesController.
  */
-class PrizesController extends Controller
+class PrizesController extends Controller implements PrizesControllerContract
 {
-    use DatatablesTrait;
-
     /**
      * Список призов.
-     * 
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * 
-     * @throws \Exception
+     *
+     * @param PrizesDataTableServiceContract $dataTableService
+     *
+     * @return View
      */
-    public function index(): View
+    public function index(PrizesDataTableServiceContract $dataTableService): View
     {
-        $table = $this->generateTable('hashtags', 'prizes');
+        $table = $dataTableService->html();
 
         return view('admin.module.hashtags::back.pages.prizes.index', compact('table'));
     }
@@ -48,11 +46,11 @@ class PrizesController extends Controller
     /**
      * Создание приза.
      *
-     * @param SavePrizeRequest $request
+     * @param SavePrizeRequestContract $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(SavePrizeRequest $request): RedirectResponse
+    public function store(SavePrizeRequestContract $request): RedirectResponse
     {
         return $this->save($request);
     }
@@ -78,12 +76,12 @@ class PrizesController extends Controller
     /**
      * Обновление приза.
      *
-     * @param SavePrizeRequest $request
+     * @param SavePrizeRequestContract $request
      * @param null $id
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(SavePrizeRequest $request, $id = null): RedirectResponse
+    public function update(SavePrizeRequestContract $request, $id = null): RedirectResponse
     {
         return $this->save($request, $id);
     }
@@ -91,12 +89,12 @@ class PrizesController extends Controller
     /**
      * Сохранение приза.
      *
-     * @param $request
+     * @param SavePrizeRequestContract $request
      * @param null $id
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    private function save($request, $id = null): RedirectResponse
+    private function save(SavePrizeRequestContract $request, $id = null): RedirectResponse
     {
         if (! is_null($id) && $id > 0 && $item = PrizeModel::find($id)) {
             $action = 'отредактирован';
@@ -109,6 +107,8 @@ class PrizesController extends Controller
         $item->alias = trim(strip_tags($request->get('alias')));
         $item->description = trim($request->input('description.text'));
         $item->save();
+
+        event(app()->makeWith('InetStudio\Hashtags\Contracts\Events\Prizes\ModifyPrizeEventContract', ['object' => $item]));
 
         Session::flash('success', 'Приз «'.$item->name.'» успешно '.$action);
 
@@ -127,6 +127,9 @@ class PrizesController extends Controller
     public function destroy($id = null): JsonResponse
     {
         if (! is_null($id) && $id > 0 && $item = PrizeModel::find($id)) {
+
+            event(app()->makeWith('InetStudio\Hashtags\Contracts\Events\Prizes\ModifyPrizeEventContract', ['object' => $item]));
+
             $item->delete();
 
             return response()->json([

@@ -2,31 +2,24 @@
 
 namespace InetStudio\Hashtags\Http\Controllers\Back\Statuses;
 
-use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
-use InetStudio\Hashtags\Models\StatusModel;
-use InetStudio\Hashtags\Transformers\Back\StatusTransformer;
+use InetStudio\Hashtags\Contracts\Services\Back\Statuses\StatusesDataTableServiceContract;
+use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Statuses\StatusesDataControllerContract;
 
 /**
- * Class StatusesDataController
- * @package InetStudio\Hashtags\Http\Controllers\Back\Statuses
+ * Class StatusesDataController.
  */
-class StatusesDataController extends Controller
+class StatusesDataController extends Controller implements StatusesDataControllerContract
 {
     /**
-     * DataTables ServerSide.
+     * Получаем данные для отображения в таблице.
+     *
+     * @param StatusesDataTableServiceContract $dataTableService
      *
      * @return mixed
-     *
-     * @throws \Exception
      */
-    public function data()
+    public function data(StatusesDataTableServiceContract $dataTableService)
     {
-        $items = StatusModel::query();
-
-        return Datatables::of($items)
-            ->setTransformer(new StatusTransformer)
-            ->rawColumns(['name', 'actions'])
-            ->make();
+        return $dataTableService->ajax();
     }
 }

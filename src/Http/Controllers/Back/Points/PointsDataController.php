@@ -2,31 +2,24 @@
 
 namespace InetStudio\Hashtags\Http\Controllers\Back\Points;
 
-use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
-use InetStudio\Hashtags\Models\PointModel;
-use InetStudio\Hashtags\Transformers\Back\PointTransformer;
+use InetStudio\Hashtags\Contracts\Services\Back\Points\PointsDataTableServiceContract;
+use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Points\PointsDataControllerContract;
 
 /**
- * Class PointsDataController
- * @package InetStudio\Hashtags\Http\Controllers\Back\Points
+ * Class PointsDataController.
  */
-class PointsDataController extends Controller
+class PointsDataController extends Controller implements PointsDataControllerContract
 {
     /**
-     * DataTables ServerSide.
+     * Получаем данные для отображения в таблице.
+     *
+     * @param PointsDataTableServiceContract $dataTableService
      *
      * @return mixed
-     *
-     * @throws \Exception
      */
-    public function data()
+    public function data(PointsDataTableServiceContract $dataTableService)
     {
-        $items = PointModel::query();
-
-        return DataTables::of($items)
-            ->setTransformer(new PointTransformer)
-            ->rawColumns(['name', 'actions'])
-            ->make();
+        return $dataTableService->ajax();
     }
 }

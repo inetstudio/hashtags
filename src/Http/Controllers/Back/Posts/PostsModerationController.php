@@ -8,16 +8,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use InetStudio\Hashtags\Models\PostModel;
 use InetStudio\Hashtags\Models\StatusModel;
-use InetStudio\Hashtags\Contracts\Services\Back\ContestPostsServiceContract;
-use InetStudio\Instagram\Contracts\Services\Back\InstagramIDServiceContract;
-use InetStudio\Instagram\Contracts\Services\Back\InstagramPostsServiceContract;
-use InetStudio\Vkontakte\Contracts\Services\Back\VkontaktePostsServiceContract;
+use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Posts\PostsModerationControllerContract;
 
 /**
- * Class PostsModerationController
- * @package InetStudio\Hashtags\Http\Controllers\Back\Posts
+ * Class PostsModerationController.
  */
-class PostsModerationController extends Controller
+class PostsModerationController extends Controller implements PostsModerationControllerContract
 {
     private $services = [];
 
@@ -26,10 +22,10 @@ class PostsModerationController extends Controller
      */
     public function __construct()
     {
-        $this->services['InstagramID'] = app()->make(InstagramIDServiceContract::class);
-        $this->services['InstagramPosts'] = app()->make(InstagramPostsServiceContract::class);
-        $this->services['ContestPosts'] = app()->make(ContestPostsServiceContract::class);
-        $this->services['VkontaktePosts'] = app()->make(VkontaktePostsServiceContract::class);
+        $this->services['InstagramID'] = app()->make('InetStudio\Instagram\Contracts\Services\Back\InstagramIDServiceContract');
+        $this->services['InstagramPosts'] = app()->make('InetStudio\Instagram\Contracts\Services\Back\InstagramPostsServiceContract');
+        $this->services['ContestPosts'] = app()->make('InetStudio\Hashtags\Contracts\Services\Back\Posts\ContestPostsServiceContract');
+        $this->services['VkontaktePosts'] = app()->make('InetStudio\Vkontakte\Contracts\Services\Back\VkontaktePostsServiceContract');
     }
 
     /**
