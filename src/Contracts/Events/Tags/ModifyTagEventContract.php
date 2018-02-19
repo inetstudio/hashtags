@@ -7,5 +7,4 @@ namespace InetStudio\Hashtags\Contracts\Events\Tags;
  */
 interface ModifyTagEventContract
 {
-
 }

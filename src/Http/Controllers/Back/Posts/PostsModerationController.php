@@ -111,11 +111,11 @@ class PostsModerationController extends Controller implements PostsModerationCon
      */
     public function moderate(Request $request, $id, $statusAlias): RedirectResponse
     {
-        if (!(! is_null($id) && $id > 0 && $item = PostModel::withTrashed()->find($id))) {
+        if (! (! is_null($id) && $id > 0 && $item = PostModel::withTrashed()->find($id))) {
             abort(404);
         }
 
-        if (!(! is_null($statusAlias) && $status = StatusModel::where('alias', '=', $statusAlias)->first())) {
+        if (! (! is_null($statusAlias) && $status = StatusModel::where('alias', '=', $statusAlias)->first())) {
             abort(404);
         }
 

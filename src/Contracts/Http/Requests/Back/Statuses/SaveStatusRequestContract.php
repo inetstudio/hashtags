@@ -7,5 +7,4 @@ namespace InetStudio\Hashtags\Contracts\Http\Requests\Back\Statuses;
  */
 interface SaveStatusRequestContract
 {
-
 }

@@ -66,7 +66,7 @@ class HashtagsServiceProvider extends ServiceProvider
         );
 
         $this->publishes([
-            __DIR__ . '/../../public' => public_path(),
+            __DIR__.'/../../public' => public_path(),
         ], 'public');
 
         if ($this->app->runningInConsole()) {

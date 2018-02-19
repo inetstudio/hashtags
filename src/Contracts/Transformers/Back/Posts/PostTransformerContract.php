@@ -7,5 +7,4 @@ namespace InetStudio\Hashtags\Contracts\Transformers\Back\Posts;
  */
 interface PostTransformerContract
 {
-
 }

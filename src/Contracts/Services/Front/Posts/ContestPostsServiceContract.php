@@ -7,5 +7,4 @@ namespace InetStudio\Hashtags\Contracts\Services\Front\Posts;
  */
 interface ContestPostsServiceContract
 {
-
 }

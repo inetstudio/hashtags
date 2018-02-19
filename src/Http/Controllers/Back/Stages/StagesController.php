@@ -47,7 +47,7 @@ class StagesController extends Controller implements StagesControllerContract
      * Создание этапа.
      *
      * @param SaveStageRequestContract $request
-     * 
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(SaveStageRequestContract $request): RedirectResponse
@@ -59,7 +59,7 @@ class StagesController extends Controller implements StagesControllerContract
      * Редактирование этапа.
      *
      * @param null $id
-     * 
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id = null): View
@@ -78,7 +78,7 @@ class StagesController extends Controller implements StagesControllerContract
      *
      * @param SaveStageRequestContract $request
      * @param null $id
-     * 
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(SaveStageRequestContract $request, $id = null): RedirectResponse
@@ -91,7 +91,7 @@ class StagesController extends Controller implements StagesControllerContract
      *
      * @param SaveStageRequestContract $request
      * @param null $id
-     * 
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     private function save(SaveStageRequestContract $request, $id = null): RedirectResponse
@@ -121,13 +121,12 @@ class StagesController extends Controller implements StagesControllerContract
      * Удаление этапа.
      *
      * @param null $id
-     * 
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id = null): JsonResponse
     {
         if (! is_null($id) && $id > 0 && $item = StageModel::find($id)) {
-
             event(app()->makeWith('InetStudio\Hashtags\Contracts\Events\Stages\ModifyStageEventContract', ['object' => $item]));
 
             $item->delete();
