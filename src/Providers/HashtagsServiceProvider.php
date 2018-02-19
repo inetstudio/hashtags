@@ -2,6 +2,7 @@
 
 namespace InetStudio\Hashtags\Providers;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -20,6 +21,7 @@ class HashtagsServiceProvider extends ServiceProvider
         $this->registerPublishes();
         $this->registerRoutes();
         $this->registerViews();
+        $this->registerEvents();
     }
 
     /**
@@ -100,6 +102,16 @@ class HashtagsServiceProvider extends ServiceProvider
     }
 
     /**
+     * Регистрация событий.
+     *
+     * @return void
+     */
+    protected function registerEvents(): void
+    {
+        Event::listen('InetStudio\Hashtags\Contracts\Events\Posts\ModifyPostEventContract', 'InetStudio\Hashtags\Contracts\Listeners\Back\Posts\ClearPostsCacheListenerContract');
+    }
+
+    /**
      * Регистрация привязок, алиасов и сторонних провайдеров сервисов.
      *
      * @return void
@@ -133,6 +145,9 @@ class HashtagsServiceProvider extends ServiceProvider
         $this->app->bind('InetStudio\Hashtags\Contracts\Events\Stages\ModifyStageEventContract', 'InetStudio\Hashtags\Events\Stages\ModifyStageEvent');
         $this->app->bind('InetStudio\Hashtags\Contracts\Events\Statuses\ModifyStatusEventContract', 'InetStudio\Hashtags\Events\Statuses\ModifyStatusEvent');
         $this->app->bind('InetStudio\Hashtags\Contracts\Events\Tags\ModifyTagEventContract', 'InetStudio\Hashtags\Events\Tags\ModifyTagEvent');
+
+        // Listeners
+        $this->app->bind('InetStudio\Hashtags\Contracts\Listeners\Back\Posts\ClearPostsCacheListenerContract', 'InetStudio\Hashtags\Listeners\Back\Posts\ClearPostsCacheListener');
 
         // Requests
         $this->app->bind('InetStudio\Hashtags\Contracts\Http\Requests\Back\Points\SavePointRequestContract', 'InetStudio\Hashtags\Http\Requests\Back\Points\SavePointRequest');
