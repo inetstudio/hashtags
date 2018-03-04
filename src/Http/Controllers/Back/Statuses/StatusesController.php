@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
 use InetStudio\Hashtags\Models\StatusModel;
-use InetStudio\Classifiers\Http\Controllers\Back\Traits\ClassifiersManipulationsTrait;
 use InetStudio\Hashtags\Contracts\Http\Requests\Back\Statuses\SaveStatusRequestContract;
 use InetStudio\Hashtags\Contracts\Services\Back\Statuses\StatusesDataTableServiceContract;
 use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Statuses\StatusesControllerContract;
@@ -18,8 +17,6 @@ use InetStudio\Hashtags\Contracts\Http\Controllers\Back\Statuses\StatusesControl
  */
 class StatusesController extends Controller implements StatusesControllerContract
 {
-    use ClassifiersManipulationsTrait;
-
     /**
      * Список статусов.
      *
@@ -111,7 +108,8 @@ class StatusesController extends Controller implements StatusesControllerContrac
         $item->description = trim($request->input('description.text'));
         $item->save();
 
-        $this->saveClassifiers($item, $request);
+        app()->make('InetStudio\Classifiers\Contracts\Services\Back\ClassifiersServiceContract')
+            ->attachToObject($request, $item);
 
         event(app()->makeWith('InetStudio\Hashtags\Contracts\Events\Statuses\ModifyStatusEventContract', ['object' => $item]));
 
