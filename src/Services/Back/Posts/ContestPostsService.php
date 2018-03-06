@@ -183,16 +183,26 @@ class ContestPostsService implements ContestPostsServiceContract
                 'photo_130',
             ],
             'link' => [
-                'image_big',
-                'image_src',
+                'photo_604',
+                'photo_130',
+                'photo_75',
             ],
         ];
 
         $attachmentType = $attachment['type'];
 
         foreach ($fields[$attachmentType] as $field) {
-            if (isset($attachment[$attachmentType][$field])) {
-                return $attachment[$attachmentType][$field];
+            switch ($attachmentType) {
+                case 'link':
+                    if (isset($attachment[$attachmentType]['photo'][$field])) {
+                        return $attachment[$attachmentType]['photo'][$field];
+                    }
+                    break;
+                case 'photo':
+                    if (isset($attachment[$attachmentType][$field])) {
+                        return $attachment[$attachmentType][$field];
+                    }
+                    break;
             }
         }
 
