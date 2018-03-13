@@ -47,7 +47,7 @@ class PostsUtilityController extends Controller implements PostsUtilityControlle
         Excel::create($excelFname, function ($excel) use ($posts) {
             $excel->sheet('Посты', function ($sheet) use ($posts) {
                 $sheet->row(1, [
-                    'ID', 'Социальная сеть', 'Пользователь', 'Ссылка на профиль', 'Ссылка на пост', 'Ссылка на медиа', 'Имя файла',
+                    'ID', 'Социальная сеть', 'Пользователь', 'Ссылка на профиль', 'Ссылка на пост', 'Ссылка на медиа', 'Имя файла', 'Время поста', 'Время последнего изменения',
                 ]);
 
                 foreach ($posts as $index => $post) {
@@ -58,7 +58,7 @@ class PostsUtilityController extends Controller implements PostsUtilityControlle
                     $fileName = (! ($images || $videos)) ? '' : (($post->social->type == 'video') ? $videos->file_name : $images->file_name);
 
                     $sheet->appendRow([
-                        $post->hash, $post->social->social_name, $post->social->user->user_nickname, $post->social->user->user_url, $post->social->post_url, $fileUrl, $fileName,
+                        $post->hash, $post->social->social_name, $post->social->user->user_nickname, $post->social->user->user_url, $post->social->post_url, $fileUrl, $fileName, $post->social->post_time, $post->updated_at,
                     ]);
                 }
             });
