@@ -5,10 +5,10 @@
     "license": "MIT",
     "require": {
         "chumper/zipper": "1.0.x",
-        "inetstudio/admin-panel": "1.5.*",
-        "inetstudio/classifiers": "1.5.*",
-        "inetstudio/instagram": "1.5.*",
-        "inetstudio/vkontakte": "1.5.*",
+        "inetstudio/admin-panel": "1.6.*",
+        "inetstudio/classifiers": "1.6.*",
+        "inetstudio/instagram": "1.6.*",
+        "inetstudio/vkontakte": "1.6.*",
         "maatwebsite/excel": "~2.1.0",
         "rutorika/sortable": "^4.0"
     },
