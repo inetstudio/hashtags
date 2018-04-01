@@ -94,15 +94,15 @@ class PointsDataTableService extends DataTable implements PointsDataTableService
      */
     protected function getParameters(): array
     {
+        $i18n = trans('admin::datatables');
+
         return [
             'paging' => true,
             'pagingType' => 'full_numbers',
             'searching' => true,
             'info' => false,
             'searchDelay' => 350,
-            'language' => [
-                'url' => asset('/admin/js/plugins/datatables/locales/russian.json'),
-            ],
+            'language' => $i18n,
         ];
     }
 }

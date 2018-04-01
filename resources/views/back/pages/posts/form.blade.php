@@ -6,16 +6,6 @@
 
 @section('title', $title)
 
-@pushonce('styles:fancybox')
-    <!-- FANCYBOX -->
-    <link href="{!! asset('admin/css/plugins/fancybox/jquery.fancybox.min.css') !!}" rel="stylesheet">
-@endpushonce
-
-@pushonce('styles:posts_custom')
-    <!-- CUSTOM STYLE -->
-    <link href="{!! asset('admin/css/modules/hashtags/custom.css') !!}" rel="stylesheet">
-@endpushonce
-
 @section('content')
 
     @push('breadcrumbs')
@@ -167,13 +157,3 @@
 
     @include('admin.module.hashtags::back.pages.posts.modals.prize')
 @endsection
-
-@pushonce('scripts:fancybox')
-    <!-- FANCYBOX -->
-    <script src="{!! asset('admin/js/plugins/fancybox/jquery.fancybox.min.js') !!}"></script>
-@endpushonce
-
-@pushonce('custom_scripts:posts_custom')
-    <!-- CUSTOM SCRIPTS -->
-    <script src="{!! asset('admin/js/modules/hashtags/custom.js') !!}"></script>
-@endpushonce

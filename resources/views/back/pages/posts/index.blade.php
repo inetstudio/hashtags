@@ -6,21 +6,6 @@
 
 @section('title', $title)
 
-@pushonce('styles:fancybox')
-    <!-- FANCYBOX -->
-    <link href="{!! asset('admin/css/plugins/fancybox/jquery.fancybox.min.css') !!}" rel="stylesheet">
-@endpushonce
-
-@pushonce('styles:datatables')
-    <!-- DATATABLES -->
-    <link href="{!! asset('admin/css/plugins/datatables/datatables.min.css') !!}" rel="stylesheet">
-@endpushonce
-
-@pushonce('styles:posts_custom')
-    <!-- CUSTOM STYLE -->
-    <link href="{!! asset('admin/css/modules/hashtags/custom.css') !!}" rel="stylesheet">
-@endpushonce
-
 @section('content')
 
     @push('breadcrumbs')
@@ -112,36 +97,6 @@
 
 @endsection
 
-@pushonce('scripts:autocomplete')
-    <!-- AUTOCOMPLETE -->
-    <script src="{!! asset('admin/js/plugins/autocomplete/jquery.autocomplete.min.js') !!}"></script>
-@endpushonce
-
-@pushonce('scripts:clipboard')
-    <!-- CLIPBOARD -->
-    <script src="{!! asset('admin/js/plugins/clipboard/clipboard.min.js') !!}"></script>
-@endpushonce
-
-@pushonce('scripts:fancybox')
-    <!-- FANCYBOX -->
-    <script src="{!! asset('admin/js/plugins/fancybox/jquery.fancybox.min.js') !!}"></script>
-@endpushonce
-
-@pushonce('scripts:sortable')
-    <!-- SORTABLE -->
-    <script src="{!! asset('admin/js/plugins/sortable/sortable.min.js') !!}"></script>
-@endpushonce
-
-@pushonce('scripts:datatables')
-    <!-- DATATABLES -->
-    <script src="{!! asset('admin/js/plugins/datatables/datatables.min.js') !!}"></script>
-@endpushonce
-
 @pushonce('scripts:datatables_posts_index')
     {!! $table->scripts() !!}
-@endpushonce
-
-@pushonce('custom_scripts:posts_custom')
-    <!-- Custom Admin Scripts -->
-    <script src="{!! asset('admin/js/modules/hashtags/custom.js') !!}"></script>
 @endpushonce

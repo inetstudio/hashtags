@@ -1,4 +1,38 @@
 $(document).ready(function(){
+    $('.order-list').each(function () {
+        var sortURL = $(this).attr('data-sort-url');
+        Sortable.create(this, {
+            dataIdAttr: 'data-post-id',
+            handle: '.post-drag',
+            onUpdate: function (evt) {
+                var $itemEl = $(evt.item);
+
+                var data = {
+                    currentId: $itemEl.attr('data-post-id'),
+                    prev: ($itemEl.next().length > 0) ? $itemEl.next().attr('data-post-id') : 0,
+                    next: ($itemEl.prev().length > 0) ? $itemEl.prev().attr('data-post-id') : 0
+                };
+
+                $.ajax({
+                    'url': sortURL,
+                    'type': 'POST',
+                    'data': data,
+                    'dataType': 'json',
+                    'success': function (data) {
+                        if (data.success) {
+                            toastr.success('', 'Сортировка сохранена', window.window.Admin.options.toastr);
+                        } else {
+                            toastr.error('', 'При изменении сортировки произошла ошибка', window.window.Admin.options.toastr);
+                        }
+                    },
+                    'error': function () {
+                        toastr.error('', 'При изменении сортировки произошла ошибка', window.window.Admin.options.toastr);
+                    }
+                });
+            }
+        })
+    });
+
     $('.table').on('click', '.submit-post', function() {
         var modal = $(this).attr('data-target'),
             id = $(this).attr('data-id'),
@@ -22,7 +56,9 @@ $(document).ready(function(){
 
         if (mode === 'sort') {
             if ($('[data-src]:not([class*=placeholder])').length > 0) {
-                $('[data-src]:not([class*=placeholder])').lazyLoadXT();
+                new LazyLoad({
+                    elements_selector: '[data-src]:not([class*=placeholder])'
+                });
             }
 
             initImagePlaceholders('#sorting');
@@ -34,7 +70,9 @@ $(document).ready(function(){
 
     $('#moderation table').on('draw.dt', function () {
         if ($('[data-src]:not([class*=placeholder])').length > 0) {
-            $('[data-src]:not([class*=placeholder])').lazyLoadXT();
+            new LazyLoad({
+                elements_selector: '[data-src]:not([class*=placeholder])'
+            });
         }
 
         initImagePlaceholders('table');
@@ -122,12 +160,12 @@ $(document).ready(function(){
 
         $(this).closest('li').remove();
     });
-});
 
-function initImagePlaceholders(parent) {
-    $(parent).find('img.placeholder').each(function () {
-        Holder.run({
-            images: $(this).get(0)
+    function initImagePlaceholders(parent) {
+        $(parent).find('img.placeholder').each(function () {
+            Holder.run({
+                images: $(this).get(0)
+            });
         });
-    });
-}
+    }
+});
