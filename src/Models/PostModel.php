@@ -2,6 +2,7 @@
 
 namespace InetStudio\Hashtags\Models;
 
+use InetStudio\Classifiers\Models\Traits\HasClassifiers;
 use Rutorika\Sortable\SortableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,6 +13,7 @@ class PostModel extends Model
     use SoftDeletes;
     use SortableTrait;
     use RevisionableTrait;
+    use HasClassifiers;
 
     /**
      * Связанная с моделью таблица.
