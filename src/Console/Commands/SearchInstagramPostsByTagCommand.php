@@ -43,7 +43,7 @@ class SearchInstagramPostsByTagCommand extends Command
             foreach ($configTypes as $configType) {
                 switch ($configType) {
                     case 'all':
-                        $this->postTypes = [1, 2];
+                        $this->postTypes = [1, 2, 8];
                         break;
                     case 'photo':
                         $this->postTypes[] = 1;

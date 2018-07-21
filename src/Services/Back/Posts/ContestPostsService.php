@@ -51,11 +51,12 @@ class ContestPostsService implements ContestPostsServiceContract
             return null;
         }
 
+        // fix from carousel type posts. [by Rakhmankin on 22/07/2018]
         try {
-            if (! isset($post['image_versions2']['candidates'][0]['url'])) {
+            if (! $igPost->image_versions) {
                 return null;
             }
-            $igPost->addMediaFromUrl($post['image_versions2']['candidates'][0]['url'])->toMediaCollection('images', 'instagram_posts');
+            $igPost->addMediaFromUrl($igPost->image_versions)->toMediaCollection('images', 'instagram_posts');
         } catch (UnreachableUrl $error) {
             return null;
         }
